@@ -28,8 +28,6 @@ $: rootStyle = `
     width: ${size}px;
     height: ${size}px;
     background-color: ${background};
-    position: relative;
-    display: grid;
     grid-template: ${gridTemplate};
 `;
 
@@ -45,33 +43,43 @@ $: coordinateStyle = `
     font-size: ${cellsSize * 0.3}px;
     font-weight: bold;
     color: ${coordinates_color};
+`;
+</script>
+
+<style>
+#root {
+    position: relative;
+    display: grid;
+}
+
+.coordinate {
     display: flex;
     justify-content: center;
     align-items: center;
-`;
-</script>
+}
+</style>
 
 <svelte:options tag="loloof64-chessboard" />
 <div id="root" style={rootStyle}>
     <div></div>
     {#each Array(8) as undef0, columnIndex}
-        <div style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + columnIndex)}</div>
+        <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + columnIndex)}</div>
     {/each}
     <div></div>
 
     {#each Array(8) as undef1, lineIndex}
-        <div style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + 7 - lineIndex)}</div>
+        <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + 7 - lineIndex)}</div>
         {#each Array(8) as undef2, columnIndex}
             <div style="{((lineIndex + columnIndex) % 2)  === 0 ? whiteCellsStyle : blackCellsStyle}">
                 <chess-black-king size={cellsSize} />
             </div>
         {/each}
-        <div style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + 7 - lineIndex)}</div>
+        <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + 7 - lineIndex)}</div>
     {/each}
 
     <div></div>
     {#each Array(8) as undef0, columnIndex}
-        <div style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + columnIndex)}</div>
+        <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + columnIndex)}</div>
     {/each}
     <div></div>
 </div>
