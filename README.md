@@ -79,3 +79,9 @@ But don't forget first to install all dependencies, with NodeJS : `npm install`.
 Original pieces vectors definitions from CBurnett and found on [Wikimedia commons](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces).
 
 Using [ChessJS library](https://github.com/jhlywa/chess.js), which is bundled in the produced script.
+
+## Acknowledgement
+
+* Wails creator and developpers, SvelteJs creator and developpers
+* A shot of code Youtube channel, for having posted [this short tutorial video](https://www.youtube.com/watch?time_continue=471&v=p3u5rdJH9BM&feature=emb_logo)
+* Contributors to SvelteJs discord server.
