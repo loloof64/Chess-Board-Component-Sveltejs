@@ -6,6 +6,20 @@ export let white_cell_color = 'GoldenRod';
 export let black_cell_color = 'brown';
 export let coordinates_color = 'DarkOrange';
 
+import WhitePawn from './WhitePawn.svelte';
+import WhiteKnight from './WhiteKnight.svelte';
+import WhiteBishop from './WhiteBishop.svelte';
+import WhiteRook from './WhiteRook.svelte';
+import WhiteQueen from './WhiteQueen.svelte';
+import WhiteKing from './WhiteKing.svelte';
+
+import BlackPawn from './BlackPawn.svelte';
+import BlackKnight from './BlackKnight.svelte';
+import BlackBishop from './BlackBishop.svelte';
+import BlackRook from './BlackRook.svelte';
+import BlackQueen from './BlackQueen.svelte';
+import BlackKing from './BlackKing.svelte';
+
 $: cellsSize = size / 9.0;
 $: halfCellsSize = cellsSize * 0.5;
 
@@ -28,7 +42,7 @@ $: blackCellsStyle = `
 `;
 
 $: coordinateStyle = `
-    font-size: ${cellsSize * 0.2}px;
+    font-size: ${cellsSize * 0.3}px;
     font-weight: bold;
     color: ${coordinates_color};
     display: flex;
@@ -49,7 +63,7 @@ $: coordinateStyle = `
         <div style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + 7 - lineIndex)}</div>
         {#each Array(8) as undef2, columnIndex}
             <div style="{((lineIndex + columnIndex) % 2)  === 0 ? whiteCellsStyle : blackCellsStyle}">
-                
+                <chess-black-king size={cellsSize} />
             </div>
         {/each}
         <div style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + 7 - lineIndex)}</div>
