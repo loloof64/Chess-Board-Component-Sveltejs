@@ -7,110 +7,41 @@ export let white_cell_color = 'GoldenRod';
 export let black_cell_color = 'brown';
 export let coordinates_color = 'DarkOrange';
 
-import WhitePawn from './WhitePawn.svelte';
-import WhiteKnight from './WhiteKnight.svelte';
-import WhiteBishop from './WhiteBishop.svelte';
-import WhiteRook from './WhiteRook.svelte';
-import WhiteQueen from './WhiteQueen.svelte';
-import WhiteKing from './WhiteKing.svelte';
+import WhitePawn from './pieces/WhitePawn.svelte';
+import WhiteKnight from './pieces/WhiteKnight.svelte';
+import WhiteBishop from './pieces/WhiteBishop.svelte';
+import WhiteRook from './pieces/WhiteRook.svelte';
+import WhiteQueen from './pieces/WhiteQueen.svelte';
+import WhiteKing from './pieces/WhiteKing.svelte';
 
-import BlackPawn from './BlackPawn.svelte';
-import BlackKnight from './BlackKnight.svelte';
-import BlackBishop from './BlackBishop.svelte';
-import BlackRook from './BlackRook.svelte';
-import BlackQueen from './BlackQueen.svelte';
-import BlackKing from './BlackKing.svelte';
+import BlackPawn from './pieces/BlackPawn.svelte';
+import BlackKnight from './pieces/BlackKnight.svelte';
+import BlackBishop from './pieces/BlackBishop.svelte';
+import BlackRook from './pieces/BlackRook.svelte';
+import BlackQueen from './pieces/BlackQueen.svelte';
+import BlackKing from './pieces/BlackKing.svelte';
+
+import {
+    columnIndexToFile,
+    lineIndexToRank,
+    getPieceAt,
+    isWhitePawn,
+    isWhiteKnight,
+    isWhiteBishop,
+    isWhiteRook,
+    isWhiteQueen,
+    isWhiteKing,
+    isBlackPawn,
+    isBlackKnight,
+    isBlackBishop,
+    isBlackRook,
+    isBlackQueen,
+    isBlackKing,
+} from './util/PiecesTest.js';
 
 import {Chess} from 'chess.js';
 
 let logic = new Chess();
-
-function columnIndexToFile(index) {
-    return index;
-}
-
-function lineIndexToRank(index) {
-    return 7-index;
-}
-
-function getPieceAt(file, rank) {
-    const cellAlgebraic = `${String.fromCharCode('a'.charCodeAt(0) + file)}${String.fromCharCode('1'.charCodeAt(0) + rank)}`;
-    const pieceValue = logic.get(cellAlgebraic);
-    return pieceValue;
-}
-
-function isWhitePawn(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'p' && piece.color === 'w';
-}
-
-function isWhiteKnight(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'n' && piece.color === 'w';
-}
-
-function isWhiteBishop(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'b' && piece.color === 'w';
-}
-
-function isWhiteRook(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'r' && piece.color === 'w';
-}
-
-function isWhiteQueen(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'q' && piece.color === 'w';
-}
-
-function isWhiteKing(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'k' && piece.color === 'w';
-}
-
-function isBlackPawn(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'p' && piece.color === 'b';
-}
-
-function isBlackKnight(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'n' && piece.color === 'b';
-}
-
-function isBlackBishop(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'b' && piece.color === 'b';
-}
-
-function isBlackRook(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'r' && piece.color === 'b';
-}
-
-function isBlackQueen(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'q' && piece.color === 'b';
-}
-
-function isBlackKing(columnIndex, lineIndex) {
-    const piece = getPieceAt(columnIndexToFile(columnIndex), lineIndexToRank(lineIndex));
-    if ([null, undefined].includes(piece)) return false;
-    return piece.type === 'k' && piece.color === 'b';
-}
-
 
 $: coordIndexes = [true, "true"].includes(reversed) ? [7,6,5,4,3,2,1,0] : [0,1,2,3,4,5,6,7];
 
@@ -184,30 +115,30 @@ let blackTurnStyle = `
         <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + 7 - lineIndex)}</div>
         {#each coordIndexes as columnIndex}
             <div class="cell" style="{((lineIndex + columnIndex) % 2)  === 0 ? whiteCellsStyle : blackCellsStyle}">
-                {#if isWhitePawn(columnIndex, lineIndex)}
+                {#if isWhitePawn(logic, columnIndex, lineIndex)}
                     <chess-white-pawn size={cellsSize} />
-                {:else if isWhiteKnight(columnIndex, lineIndex)}
+                {:else if isWhiteKnight(logic, columnIndex, lineIndex)}
                     <chess-white-knight size={cellsSize} />
-                {:else if isWhiteBishop(columnIndex, lineIndex)}
+                {:else if isWhiteBishop(logic, columnIndex, lineIndex)}
                     <chess-white-bishop size={cellsSize} />
-                {:else if isWhiteRook(columnIndex, lineIndex)}
+                {:else if isWhiteRook(logic, columnIndex, lineIndex)}
                     <chess-white-rook size={cellsSize} />
-                {:else if isWhiteQueen(columnIndex, lineIndex)}
+                {:else if isWhiteQueen(logic, columnIndex, lineIndex)}
                     <chess-white-queen size={cellsSize} />
-                {:else if isWhiteKing(columnIndex, lineIndex)}
+                {:else if isWhiteKing(logic, columnIndex, lineIndex)}
                     <chess-white-king size={cellsSize} />
 
-                {:else if isBlackPawn(columnIndex, lineIndex)}
+                {:else if isBlackPawn(logic, columnIndex, lineIndex)}
                     <chess-black-pawn size={cellsSize} />
-                {:else if isBlackKnight(columnIndex, lineIndex)}
+                {:else if isBlackKnight(logic, columnIndex, lineIndex)}
                     <chess-black-knight size={cellsSize} />
-                {:else if isBlackBishop(columnIndex, lineIndex)}
+                {:else if isBlackBishop(logic, columnIndex, lineIndex)}
                     <chess-black-bishop size={cellsSize} />
-                {:else if isBlackRook(columnIndex, lineIndex)}
+                {:else if isBlackRook(logic, columnIndex, lineIndex)}
                     <chess-black-rook size={cellsSize} />
-                {:else if isBlackQueen(columnIndex, lineIndex)}
+                {:else if isBlackQueen(logic, columnIndex, lineIndex)}
                     <chess-black-queen size={cellsSize} />
-                {:else if isBlackKing(columnIndex, lineIndex)}
+                {:else if isBlackKing(logic, columnIndex, lineIndex)}
                     <chess-black-king size={cellsSize} />
                 {:else}
                     <div></div>
