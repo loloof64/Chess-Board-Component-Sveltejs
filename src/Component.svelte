@@ -13,6 +13,8 @@ export let origin_cell_color = 'crimson';
 export let target_cell_color = 'ForestGreen';
 export let dnd_cross_color = 'DimGrey';
 
+export let move_highlight_color = 'CadetBlue';
+
 import WhitePawn from './pieces/WhitePawn.svelte';
 import WhiteKnight from './pieces/WhiteKnight.svelte';
 import WhiteBishop from './pieces/WhiteBishop.svelte';
@@ -68,6 +70,26 @@ import {Chess} from 'chess.js';
 
 
 let logic = new Chess();
+let lastMove;
+
+$: lastMoveDefined = ! [null, undefined].includes(lastMove);
+
+let lastMoveBaselineLeft, lastMoveBaselineTop;
+let lastMoveBaselineWidth, lastMoveBaselineHeight;
+let lastMoveBaselineTransform, lastMoveBaselineTransformOrigin;
+
+let lastMoveArrow1Left, lastMoveArrow1Top;
+let lastMoveArrow1Width, lastMoveArrow1Height;
+let lastMoveArrow1Transform, lastMoveArrow1TransformOrigin;
+
+let lastMoveArrow2Left, lastMoveArrow2Top;
+let lastMoveArrow2Width, lastMoveArrow2Height;
+let lastMoveArrow2Transform, lastMoveArrow2TransformOrigin;
+
+let lastMovePointLeft, lastMovePointTop;
+let lastMovePointWidth, lastMovePointHeight;
+let lastMovePointTransform, lastMovePointTransformOrigin;
+
 
 $: fileIndexes = [true, "true"].includes(reversed) ? [7,6,5,4,3,2,1,0] : [0,1,2,3,4,5,6,7];
 $: rankIndexes = [true, "true"].includes(reversed) ? [0,1,2,3,4,5,6,7] : [7,6,5,4,3,2,1,0];
@@ -126,6 +148,72 @@ $: dndCrossCellStyle = `
     height: ${cellsSize}px;
 `;
 
+$: lastMoveBaseLineStyle = lastMoveDefined ? `
+    left: ${lastMoveBaselineLeft}px;
+    top: ${lastMoveBaselineTop}px;
+    width: ${lastMoveBaselineWidth}px;
+    height: ${lastMoveBaselineHeight}px;
+    transform: ${lastMoveBaselineTransform};
+    -ms-transform: ${lastMoveBaselineTransform};
+    -moz-transform: ${lastMoveBaselineTransform};
+    -webkit-transform: ${lastMoveBaselineTransform};
+    transform-origin: ${lastMoveBaselineTransformOrigin}; 
+    -ms-transform-origin: ${lastMoveBaselineTransformOrigin};
+    -moz-transform-origin: ${lastMoveBaselineTransformOrigin}; 
+    -webkit-transform-origin: ${lastMoveBaselineTransformOrigin};
+    background-color: ${move_highlight_color};
+`: '';
+
+$: lastMoveArrow1Style = lastMoveDefined ? `
+    left: ${lastMoveArrow1Left}px;
+    top: ${lastMoveArrow1Top}px;
+    width: ${lastMoveArrow1Width}px;
+    height: ${lastMoveArrow1Height}px;
+    transform: ${lastMoveArrow1Transform};
+    -ms-transform: ${lastMoveArrow1Transform};
+    -moz-transform: ${lastMoveArrow1Transform};
+    -webkit-transform: ${lastMoveArrow1Transform};
+    transform-origin: ${lastMoveArrow1TransformOrigin}; 
+    -ms-transform-origin: ${lastMoveArrow1TransformOrigin};
+    -moz-transform-origin: ${lastMoveArrow1TransformOrigin}; 
+    -webkit-transform-origin: ${lastMoveArrow1TransformOrigin};
+    background-color: ${move_highlight_color};
+`: '';
+
+$: lastMoveArrow2Style = lastMoveDefined ? `
+    left: ${lastMoveArrow2Left}px;
+    top: ${lastMoveArrow2Top}px;
+    width: ${lastMoveArrow2Width}px;
+    height: ${lastMoveArrow2Height}px;
+    transform: ${lastMoveArrow2Transform};
+    -ms-transform: ${lastMoveArrow2Transform};
+    -moz-transform: ${lastMoveArrow2Transform};
+    -webkit-transform: ${lastMoveArrow2Transform};
+    transform-origin: ${lastMoveArrow2TransformOrigin}; 
+    -ms-transform-origin: ${lastMoveArrow2TransformOrigin};
+    -moz-transform-origin: ${lastMoveArrow2TransformOrigin}; 
+    -webkit-transform-origin: ${lastMoveArrow2TransformOrigin};
+    background-color: ${move_highlight_color};
+`: '';
+
+$: lastMovePointStyle = lastMoveDefined ? `
+    left: ${lastMovePointLeft}px;
+    top: ${lastMovePointTop}px;
+    width: ${lastMovePointWidth}px;
+    height: ${lastMovePointHeight}px;
+    transform: ${lastMovePointTransform};
+    -ms-transform: ${lastMovePointTransform};
+    -moz-transform: ${lastMovePointTransform};
+    -webkit-transform: ${lastMovePointTransform};
+    transform-origin: ${lastMovePointTransformOrigin}; 
+    -ms-transform-origin: ${lastMovePointTransformOrigin};
+    -moz-transform-origin: ${lastMovePointTransformOrigin}; 
+    -webkit-transform-origin: ${lastMovePointTransformOrigin};
+    background-color: ${move_highlight_color};
+`: '';
+
+$: halfThickness = cellsSize * 0.08;
+
 let whiteTurnStyle = `
     background-color: white;
 `;
@@ -182,10 +270,111 @@ function updateDndLocation(x, y, file, rank) {
     targetFile = file;
     targetRank = rank;
 }
+
+function updateLastMoveArrow() {
+    if (lastMoveDefined) {
+        const startColumn = ["true", true].includes(reversed) ? 7 - lastMove.start.file : lastMove.start.file;
+        const startLine = ["true", true].includes(reversed) ? lastMove.start.rank : 7 - lastMove.start.rank;
+        const endColumn = ["true", true].includes(reversed) ? 7 - lastMove.end.file: lastMove.end.file;
+        const endLine = ["true", true].includes(reversed) ? lastMove.end.rank : 7 - lastMove.end.rank;
+
+        const ax = cellsSize * (startColumn + 1.0);
+        const ay = cellsSize * (startLine + 1.0);
+        const bx = cellsSize * (endColumn + 1.0);
+        const by = cellsSize * (endLine + 1.0);
+
+        const realAx = ax - halfThickness;
+        const realAy = ay;
+        const realBx = bx - halfThickness;
+        const realBy = by;
+
+        const vectX = realBx - realAx;
+        const vectY = realBy - realAy;
+
+        const baseLineAngleRad = Math.atan2(vectY, vectX) - Math.PI / 2.0;
+        const baseLineLength = Math.sqrt(vectX * vectX + vectY * vectY);
+        lastMoveBaselineLeft = realAx;
+        lastMoveBaselineTop = realAy;
+        lastMoveBaselineWidth = 2 * halfThickness;
+        lastMoveBaselineHeight = baseLineLength;
+        lastMoveBaselineTransform = `rotate(${baseLineAngleRad}rad)`;
+        lastMoveBaselineTransformOrigin = `${halfThickness}px ${0}px`;
+
+        const arrow1AngleRad = Math.atan2(vectY, vectX) - Math.PI / 2.0 -  3 * Math.PI / 4.0;
+        const arrow1Length = Math.sqrt(vectX * vectX + vectY * vectY) * 0.4;
+        lastMoveArrow1Left = realBx;
+        lastMoveArrow1Top = realBy;
+        lastMoveArrow1Width = 2 * halfThickness;
+        lastMoveArrow1Height = arrow1Length;
+        lastMoveArrow1Transform = `rotate(${arrow1AngleRad}rad)`;
+        lastMoveArrow1TransformOrigin = `${halfThickness}px ${0}px`;
+
+        const arrow2AngleRad = Math.atan2(vectY, vectX) - Math.PI / 2.0 +  3 * Math.PI / 4.0;
+        const arrow2Length = Math.sqrt(vectX * vectX + vectY * vectY) * 0.4;
+        lastMoveArrow2Left = realBx;
+        lastMoveArrow2Top = realBy;
+        lastMoveArrow2Width = 2 * halfThickness;
+        lastMoveArrow2Height = arrow2Length;
+        lastMoveArrow2Transform = `rotate(${arrow2AngleRad}rad)`;
+        lastMoveArrow2TransformOrigin = `${halfThickness}px ${0}px`;
+
+        const pointAngleRad = Math.atan2(vectY, vectX) + Math.PI / 4.0;
+        const pointLength = 2 * halfThickness;
+        lastMovePointLeft = realBx;
+        lastMovePointTop = realBy;
+        lastMovePointWidth = 2 * halfThickness;
+        lastMovePointHeight = pointLength;
+        lastMovePointTransform = `rotate(${pointAngleRad}rad)`;
+        lastMovePointTransformOrigin = 'center';
+    }
+    else {
+        lastMoveBaselineLeft = undefined; 
+        lastMoveBaselineTop = undefined;
+        lastMoveBaselineWidth = undefined; 
+        lastMoveBaselineHeight = undefined;
+        lastMoveBaselineTransform = undefined; 
+        lastMoveBaselineTransformOrigin = undefined;
+
+        lastMoveArrow1Left = undefined; 
+        lastMoveArrow1Top = undefined;
+        lastMoveArrow1Width = undefined; 
+        lastMoveArrow1Height = undefined;
+        lastMoveArrow1Transform = undefined; 
+        lastMoveArrow1TransformOrigin = undefined;
+
+        lastMoveArrow2Left = undefined; 
+        lastMoveArrow2Top = undefined;
+        lastMoveArrow2Width = undefined; 
+        lastMoveArrow2Height = undefined;
+        lastMoveArrow2Transform = undefined; 
+        lastMoveArrow2TransformOrigin = undefined;
+
+        lastMovePointLeft = undefined; 
+        lastMovePointTop = undefined;
+        lastMovePointWidth = undefined; 
+        lastMovePointHeight = undefined;
+        lastMovePointTransform = undefined; 
+        lastMovePointTransformOrigin = undefined;
+    }
+}
+
+function updateLastMove({startFile, startRank, endFile, endRank}){
+    lastMove = {
+        start: {
+            file: startFile, rank: startRank,
+        },
+        end: {
+            file: endFile, rank: endRank,
+        }
+    };
+
+    // Arrow not updated if this is not temporized a bit
+    setTimeout(updateLastMoveArrow, 10);
+}
 </script>
 
 <style>
-#root {
+.root {
     position: absolute;
 }
 
@@ -195,9 +384,14 @@ function updateDndLocation(x, y, file, rank) {
     z-index: 2;
 }
 
-.dnd-layer {
+.last-move-layer {
     position: absolute;
     z-index: 3;
+}
+
+.dnd-layer {
+    position: absolute;
+    z-index: 4;
 }
 
 .cell {
@@ -216,19 +410,23 @@ function updateDndLocation(x, y, file, rank) {
     position: absolute;
 }
 
-#player-turn {
+.last-move-line {
+    position: absolute;
+}
+
+.player-turn {
     border-radius: 50%;
 }
 </style>
 
 <svelte:options tag="loloof64-chessboard" />
-<div id="root" bind:this={rootElement} style={rootStyle}
+<div class="root" bind:this={rootElement} style={rootStyle}
      on:mousedown|preventDefault={(event) => handleMouseDown({event, cellsSize, reversed, rootElement, 
         logic, dragAndDropInProgress, setupDnd})}
      on:mousemove|preventDefault={(event) => handleMouseMove({event, dragAndDropInProgress,
         updateDndLocation, rootElement, cancelDnd, cellsSize, reversed})}
      on:mouseup|preventDefault={(event) => handleMouseUp({event, cellsSize, reversed, rootElement,
-        logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic})}
+        logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic, updateLastMove})}
      on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd})}
 >
     <div class="lowest-layer" style={lowestLayerStyle}>
@@ -338,7 +536,7 @@ function updateDndLocation(x, y, file, rank) {
         {#each fileIndexes as file}
             <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</div>
         {/each}
-        <div id="player-turn" style={logic.turn() === 'w' ? whiteTurnStyle : blackTurnStyle}></div>
+        <div class="player-turn" style={logic.turn() === 'w' ? whiteTurnStyle : blackTurnStyle}></div>
     </div>
 
     <div class="dnd-layer">
@@ -369,5 +567,12 @@ function updateDndLocation(x, y, file, rank) {
         {:else}
             <div></div>
         {/if}
+    </div>
+
+    <div class="last-move-layer">
+        <div class="last-move-line" style={lastMoveBaseLineStyle}></div>
+        <div class="last-move-line" style={lastMoveArrow1Style}></div>
+        <div class="last-move-line" style={lastMoveArrow2Style}></div>
+        <div class="last-move-line" style={lastMovePointStyle}></div>
     </div>
 </div>

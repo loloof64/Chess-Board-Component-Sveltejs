@@ -50,7 +50,7 @@ export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation
 }
 
 export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
-     dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic}) {
+     dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic, updateLastMove}) {
     if (!dragAndDropInProgress) return;
 
     
@@ -78,6 +78,8 @@ export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
     }
 
     updateLogic();
+    updateLastMove({startFile: originCell.file, startRank: originCell.rank,
+        endFile: file, endRank: rank});
     cancelDnd();
 }
 
