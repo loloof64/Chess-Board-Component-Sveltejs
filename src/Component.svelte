@@ -40,7 +40,28 @@ import {
     isBlackKingAtCell,
 } from './util/PiecesTest.js';
 
+import {
+    handleMouseDown,
+    handleMouseExited,
+    handleMouseMove,
+    handleMouseUp,
+    isDnDOriginCell,
+    isWhitePawnDragged,
+    isWhiteKnightDragged,
+    isWhiteBishopDragged,
+    isWhiteRookDragged,
+    isWhiteQueenDragged,
+    isWhiteKingDragged,
+    isBlackPawnDragged,
+    isBlackKnightDragged,
+    isBlackBishopDragged,
+    isBlackRookDragged,
+    isBlackQueenDragged,
+    isBlackKingDragged,
+} from './util/DragAndDrop.js';
+
 import {Chess} from 'chess.js';
+
 
 let logic = new Chess();
 
@@ -102,35 +123,18 @@ $: dndPieceStyle = [null, undefined].includes(dndLocation) ? '' : `
     top: ${dndLocation.y}px;
 `;
 
-function getCell(x, y) {
-    const cellX = Math.floor((x - cellsSize * 0.5) / cellsSize);
-    const cellY = Math.floor((y - cellsSize * 0.5) / cellsSize);
-
-    const file = [true, "true"].includes(reversed) ? 7-cellX : cellX;
-    const rank = [true, "true"].includes(reversed)  ? cellY : 7-cellY;
-
-    return [file, rank];
+function cancelDnd() {
+    dragAndDropInProgress = false;
+    dndPieceData = undefined;
+    dndLocation = undefined;
 }
 
-function getLocalCoordinates(event) {
-    if (!rootElement) return;
-
-    const thisComponentLocation = rootElement.getBoundingClientRect();
-    const localX = event.clientX - thisComponentLocation.x;
-    const localY = event.clientY - thisComponentLocation.y;
-
-    return [localX, localY];
+function updateLogic() {
+    // Update the logic variable => update the board !
+    logic = logic;
 }
 
-function handleMouseDown(event) {
-    const [x, y] = getLocalCoordinates(event);
-    const [file, rank] = getCell(x,y);
-
-    const piece = getPieceAt(logic, file, rank);
-    if ([null, undefined].includes(piece)) return;
-
-    dragAndDropInProgress = true;
-
+function setupDnd({x, y, file, rank, piece}) {
     dndLocation = {
         x, y,
     };
@@ -139,141 +143,14 @@ function handleMouseDown(event) {
         ...piece,
         originCell: {file, rank},
     };
+
+    dragAndDropInProgress = true;
 }
 
-function handleMouseMove(event) {
-    if (!dragAndDropInProgress) return;
-    const [x, y] = getLocalCoordinates(event);
-
+function updateDndLocation(x, y) {
     dndLocation = {
         x, y,
     };
-}
-
-function handleMouseUp(event) {
-    if (!dragAndDropInProgress) return;
-
-    
-    const [x, y] = getLocalCoordinates(event);
-    const [file, rank] = getCell(x,y);
-
-    const originCell = dndPieceData.originCell;
-
-    const inBounds = originCell.file >= 0 && originCell.file <= 7 &&
-        originCell.rank >= 0 && originCell.rank <= 7 &&
-        file >= 0 && file <= 7 && rank >= 0 && rank <= 7;
-
-    if (! inBounds) {
-        cancelDnd();
-        return;
-    }
-
-    const moveObject = buildMoveObject(originCell.file, originCell.rank, file, rank);
-    const result = logic.move(moveObject);
-
-    if ([null, undefined].includes(result)) {
-        cancelDnd();
-        return;
-    }
-
-    // Update the logic variable => update the board !
-    logic = logic;
-    cancelDnd();
-}
-
-function handleMouseExited(event) {
-    if (!dragAndDropInProgress) return;
-
-    const [x, y] = getLocalCoordinates(event);
-
-    cancelDnd();
-}
-
-function cancelDnd() {
-    dragAndDropInProgress = false;
-    dndPieceData = undefined;
-    dndLocation = undefined;
-}
-
-function buildMoveObject(startFile, startRank, endFile, endRank, promotion = 'q') {
-    const startAlgebraic = cellAlgebraic(startFile, startRank);
-    const endAlgebraic = cellAlgebraic(endFile, endRank);
-
-    return {
-        from: startAlgebraic,
-        to: endAlgebraic,
-        promotion,
-    };
-}
-
-
-function isDnDOriginCell(dndPieceData, file, rank) {
-    if ([undefined, null].includes(dndPieceData)) return undefined;
-    
-    const originCell = dndPieceData.originCell;
-    if ([undefined, null].includes(originCell)) return undefined;
-
-    return originCell.file === file && originCell.rank === rank;
-}
-
-function isWhitePawnDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'p' && dndPieceData.color === 'w';
-}
-
-function isWhiteKnightDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'n' && dndPieceData.color === 'w';
-}
-
-function isWhiteBishopDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'b' && dndPieceData.color === 'w';
-}
-
-function isWhiteRookDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'r' && dndPieceData.color === 'w';
-}
-
-function isWhiteQueenDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'q' && dndPieceData.color === 'w';
-}
-
-function isWhiteKingDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'k' && dndPieceData.color === 'w';
-}
-
-function isBlackPawnDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'p' && dndPieceData.color === 'b';
-}
-
-function isBlackKnightDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'n' && dndPieceData.color === 'b';
-}
-
-function isBlackBishopDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'b' && dndPieceData.color === 'b';
-}
-
-function isBlackRookDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'r' && dndPieceData.color === 'b';
-}
-
-function isBlackQueenDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'q' && dndPieceData.color === 'b';
-}
-
-function isBlackKingDragged(dndPieceData) {
-    if ([undefined, null].includes(dndPieceData)) return false;
-    return dndPieceData.type === 'k' && dndPieceData.color === 'b';
 }
 </script>
 
@@ -316,10 +193,13 @@ function isBlackKingDragged(dndPieceData) {
 
 <svelte:options tag="loloof64-chessboard" />
 <div id="root" bind:this={rootElement} style={rootStyle}
-     on:mousedown|preventDefault={handleMouseDown}
-     on:mousemove|preventDefault={handleMouseMove}
-     on:mouseup|preventDefault={handleMouseUp}
-     on:mouseleave|preventDefault={handleMouseExited}
+     on:mousedown|preventDefault={(event) => handleMouseDown({event, cellsSize, reversed, rootElement, 
+        logic, dragAndDropInProgress, setupDnd})}
+     on:mousemove|preventDefault={(event) => handleMouseMove({event, dragAndDropInProgress,
+        updateDndLocation, rootElement})}
+     on:mouseup|preventDefault={(event) => handleMouseUp({event, cellsSize, reversed, rootElement,
+        logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic})}
+     on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd})}
 >
     <div class="lowest-layer" style={lowestLayerStyle}>
         <div></div>
