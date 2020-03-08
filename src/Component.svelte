@@ -72,8 +72,6 @@ import {Chess} from 'chess.js';
 let logic = new Chess();
 let lastMove;
 
-$: lastMoveDefined = ! [null, undefined].includes(lastMove);
-
 let lastMoveBaselineLeft, lastMoveBaselineTop;
 let lastMoveBaselineWidth, lastMoveBaselineHeight;
 let lastMoveBaselineTransform, lastMoveBaselineTransformOrigin;
@@ -148,69 +146,69 @@ $: dndCrossCellStyle = `
     height: ${cellsSize}px;
 `;
 
-$: lastMoveBaseLineStyle = lastMoveDefined ? `
-    left: ${lastMoveBaselineLeft}px;
-    top: ${lastMoveBaselineTop}px;
-    width: ${lastMoveBaselineWidth}px;
-    height: ${lastMoveBaselineHeight}px;
-    transform: ${lastMoveBaselineTransform};
-    -ms-transform: ${lastMoveBaselineTransform};
-    -moz-transform: ${lastMoveBaselineTransform};
-    -webkit-transform: ${lastMoveBaselineTransform};
-    transform-origin: ${lastMoveBaselineTransformOrigin}; 
-    -ms-transform-origin: ${lastMoveBaselineTransformOrigin};
-    -moz-transform-origin: ${lastMoveBaselineTransformOrigin}; 
-    -webkit-transform-origin: ${lastMoveBaselineTransformOrigin};
+$: lastMoveBaseLineStyle = `
+    left: ${lastMoveBaselineLeft || 0}px;
+    top: ${lastMoveBaselineTop || 0}px;
+    width: ${lastMoveBaselineWidth || 0}px;
+    height: ${lastMoveBaselineHeight || 0}px;
+    transform: ${lastMoveBaselineTransform || ''};
+    -ms-transform: ${lastMoveBaselineTransform || ''};
+    -moz-transform: ${lastMoveBaselineTransform || ''};
+    -webkit-transform: ${lastMoveBaselineTransform || ''};
+    transform-origin: ${lastMoveBaselineTransformOrigin || '0px 0px'}; 
+    -ms-transform-origin: ${lastMoveBaselineTransformOrigin || '0px 0px'};
+    -moz-transform-origin: ${lastMoveBaselineTransformOrigin || '0px 0px'}; 
+    -webkit-transform-origin: ${lastMoveBaselineTransformOrigin || '0px 0px'};
     background-color: ${move_highlight_color};
-`: '';
+`;
 
-$: lastMoveArrow1Style = lastMoveDefined ? `
-    left: ${lastMoveArrow1Left}px;
-    top: ${lastMoveArrow1Top}px;
-    width: ${lastMoveArrow1Width}px;
-    height: ${lastMoveArrow1Height}px;
-    transform: ${lastMoveArrow1Transform};
-    -ms-transform: ${lastMoveArrow1Transform};
-    -moz-transform: ${lastMoveArrow1Transform};
-    -webkit-transform: ${lastMoveArrow1Transform};
-    transform-origin: ${lastMoveArrow1TransformOrigin}; 
-    -ms-transform-origin: ${lastMoveArrow1TransformOrigin};
-    -moz-transform-origin: ${lastMoveArrow1TransformOrigin}; 
-    -webkit-transform-origin: ${lastMoveArrow1TransformOrigin};
+$: lastMoveArrow1Style = `
+    left: ${lastMoveArrow1Left || 0}px;
+    top: ${lastMoveArrow1Top || 0}px;
+    width: ${lastMoveArrow1Width || 0}px;
+    height: ${lastMoveArrow1Height || 0}px;
+    transform: ${lastMoveArrow1Transform || ''};
+    -ms-transform: ${lastMoveArrow1Transform || ''};
+    -moz-transform: ${lastMoveArrow1Transform || ''};
+    -webkit-transform: ${lastMoveArrow1Transform || ''};
+    transform-origin: ${lastMoveArrow1TransformOrigin || '0px 0px'}; 
+    -ms-transform-origin: ${lastMoveArrow1TransformOrigin || '0px 0px'};
+    -moz-transform-origin: ${lastMoveArrow1TransformOrigin || '0px 0px'}; 
+    -webkit-transform-origin: ${lastMoveArrow1TransformOrigin || '0px 0px'};
     background-color: ${move_highlight_color};
-`: '';
+`;
 
-$: lastMoveArrow2Style = lastMoveDefined ? `
-    left: ${lastMoveArrow2Left}px;
-    top: ${lastMoveArrow2Top}px;
-    width: ${lastMoveArrow2Width}px;
-    height: ${lastMoveArrow2Height}px;
-    transform: ${lastMoveArrow2Transform};
-    -ms-transform: ${lastMoveArrow2Transform};
-    -moz-transform: ${lastMoveArrow2Transform};
-    -webkit-transform: ${lastMoveArrow2Transform};
-    transform-origin: ${lastMoveArrow2TransformOrigin}; 
-    -ms-transform-origin: ${lastMoveArrow2TransformOrigin};
-    -moz-transform-origin: ${lastMoveArrow2TransformOrigin}; 
-    -webkit-transform-origin: ${lastMoveArrow2TransformOrigin};
+$: lastMoveArrow2Style = `
+    left: ${lastMoveArrow2Left || 0}px;
+    top: ${lastMoveArrow2Top || 0}px;
+    width: ${lastMoveArrow2Width || 0}px;
+    height: ${lastMoveArrow2Height || 0}px;
+    transform: ${lastMoveArrow2Transform || ''};
+    -ms-transform: ${lastMoveArrow2Transform || ''};
+    -moz-transform: ${lastMoveArrow2Transform || ''};
+    -webkit-transform: ${lastMoveArrow2Transform || ''};
+    transform-origin: ${lastMoveArrow2TransformOrigin || '0px 0px'}; 
+    -ms-transform-origin: ${lastMoveArrow2TransformOrigin || '0px 0px'};
+    -moz-transform-origin: ${lastMoveArrow2TransformOrigin || '0px 0px'}; 
+    -webkit-transform-origin: ${lastMoveArrow2TransformOrigin || '0px 0px'};
     background-color: ${move_highlight_color};
-`: '';
+`;
 
-$: lastMovePointStyle = lastMoveDefined ? `
-    left: ${lastMovePointLeft}px;
-    top: ${lastMovePointTop}px;
-    width: ${lastMovePointWidth}px;
-    height: ${lastMovePointHeight}px;
-    transform: ${lastMovePointTransform};
-    -ms-transform: ${lastMovePointTransform};
-    -moz-transform: ${lastMovePointTransform};
-    -webkit-transform: ${lastMovePointTransform};
-    transform-origin: ${lastMovePointTransformOrigin}; 
-    -ms-transform-origin: ${lastMovePointTransformOrigin};
-    -moz-transform-origin: ${lastMovePointTransformOrigin}; 
-    -webkit-transform-origin: ${lastMovePointTransformOrigin};
+$: lastMovePointStyle = `
+    left: ${lastMovePointLeft || 0}px;
+    top: ${lastMovePointTop || 0}px;
+    width: ${lastMovePointWidth || 0}px;
+    height: ${lastMovePointHeight || 0}px;
+    transform: ${lastMovePointTransform || ''};
+    -ms-transform: ${lastMovePointTransform || ''};
+    -moz-transform: ${lastMovePointTransform || ''};
+    -webkit-transform: ${lastMovePointTransform || ''};
+    transform-origin: ${lastMovePointTransformOrigin || '0px 0px'}; 
+    -ms-transform-origin: ${lastMovePointTransformOrigin || '0px 0px'};
+    -moz-transform-origin: ${lastMovePointTransformOrigin || '0px 0px'}; 
+    -webkit-transform-origin: ${lastMovePointTransformOrigin || '0px 0px'};
     background-color: ${move_highlight_color};
-`: '';
+`;
 
 $: halfThickness = cellsSize * 0.08;
 
@@ -272,7 +270,7 @@ function updateDndLocation(x, y, file, rank) {
 }
 
 function updateLastMoveArrow() {
-    if (lastMoveDefined) {
+    if (![null, undefined].includes(lastMove)) {
         const startColumn = ["true", true].includes(reversed) ? 7 - lastMove.start.file : lastMove.start.file;
         const startLine = ["true", true].includes(reversed) ? lastMove.start.rank : 7 - lastMove.start.rank;
         const endColumn = ["true", true].includes(reversed) ? 7 - lastMove.end.file: lastMove.end.file;
@@ -368,8 +366,7 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
         }
     };
 
-    // Arrow not updated if this is not temporized a bit
-    setTimeout(updateLastMoveArrow, 10);
+    updateLastMoveArrow();
 }
 </script>
 
