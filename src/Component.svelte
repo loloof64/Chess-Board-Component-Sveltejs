@@ -111,7 +111,8 @@ function isBlackKing(columnIndex, lineIndex) {
     return piece.type === 'k' && piece.color === 'b';
 }
 
-$: coordIndexes = reversed ? [7,6,5,4,3,2,1,0] : [0,1,2,3,4,5,6,7];
+
+$: coordIndexes = [true, "true"].includes(reversed) ? [7,6,5,4,3,2,1,0] : [0,1,2,3,4,5,6,7];
 
 $: cellsSize = size / 9.0;
 $: halfCellsSize = cellsSize * 0.5;
