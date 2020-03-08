@@ -269,7 +269,7 @@ function updateDndLocation(x, y, file, rank) {
     targetRank = rank;
 }
 
-function updateLastMoveArrow() {
+$: {
     if (![null, undefined].includes(lastMove)) {
         const startColumn = ["true", true].includes(reversed) ? 7 - lastMove.start.file : lastMove.start.file;
         const startLine = ["true", true].includes(reversed) ? lastMove.start.rank : 7 - lastMove.start.rank;
@@ -365,8 +365,6 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
             file: endFile, rank: endRank,
         }
     };
-
-    updateLastMoveArrow();
 }
 </script>
 
