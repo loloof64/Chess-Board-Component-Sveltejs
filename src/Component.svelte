@@ -134,6 +134,15 @@ $: coordinateStyle = `
     font-weight: bold;
     color: ${coordinates_color};
 `;
+
+let whiteTurnStyle = `
+    background-color: white;
+`;
+
+let blackTurnStyle = `
+    background-color: black;
+`;
+
 </script>
 
 <style>
@@ -152,6 +161,10 @@ $: coordinateStyle = `
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#player-turn {
+    border-radius: 50%;
 }
 </style>
 
@@ -204,5 +217,5 @@ $: coordinateStyle = `
     {#each Array(8) as undef0, columnIndex}
         <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + columnIndex)}</div>
     {/each}
-    <div></div>
+    <div id="player-turn" style={logic.turn() === 'w' ? whiteTurnStyle : blackTurnStyle}></div>
 </div>
