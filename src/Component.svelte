@@ -1,6 +1,7 @@
 <script>
 export let size = 100;
 export let background = '#124589';
+export let reversed = false;
 
 export let white_cell_color = 'GoldenRod';
 export let black_cell_color = 'brown';
@@ -110,6 +111,8 @@ function isBlackKing(columnIndex, lineIndex) {
     return piece.type === 'k' && piece.color === 'b';
 }
 
+$: coordIndexes = reversed ? [7,6,5,4,3,2,1,0] : [0,1,2,3,4,5,6,7];
+
 $: cellsSize = size / 9.0;
 $: halfCellsSize = cellsSize * 0.5;
 
@@ -171,14 +174,14 @@ let blackTurnStyle = `
 <svelte:options tag="loloof64-chessboard" />
 <div id="root" style={rootStyle}>
     <div></div>
-    {#each Array(8) as undef0, columnIndex}
+    {#each coordIndexes as columnIndex}
         <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + columnIndex)}</div>
     {/each}
     <div></div>
 
-    {#each Array(8) as undef1, lineIndex}
+    {#each coordIndexes as lineIndex}
         <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + 7 - lineIndex)}</div>
-        {#each Array(8) as undef2, columnIndex}
+        {#each coordIndexes as columnIndex}
             <div class="cell" style="{((lineIndex + columnIndex) % 2)  === 0 ? whiteCellsStyle : blackCellsStyle}">
                 {#if isWhitePawn(columnIndex, lineIndex)}
                     <chess-white-pawn size={cellsSize} />
@@ -214,7 +217,7 @@ let blackTurnStyle = `
     {/each}
 
     <div></div>
-    {#each Array(8) as undef0, columnIndex}
+    {#each coordIndexes as columnIndex}
         <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + columnIndex)}</div>
     {/each}
     <div id="player-turn" style={logic.turn() === 'w' ? whiteTurnStyle : blackTurnStyle}></div>
