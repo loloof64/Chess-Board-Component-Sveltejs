@@ -24,6 +24,7 @@ import BlackQueen from './pieces/BlackQueen.svelte';
 import BlackKing from './pieces/BlackKing.svelte';
 
 import {
+    cellAlgebraic,
     getPieceAt,
     isWhitePawnAtCell,
     isWhiteKnightAtCell,
@@ -122,12 +123,13 @@ function getLocalCoordinates(event) {
 }
 
 function handleMouseDown(event) {
-    dragAndDropInProgress = true;
     const [x, y] = getLocalCoordinates(event);
     const [file, rank] = getCell(x,y);
 
     const piece = getPieceAt(logic, file, rank);
     if ([null, undefined].includes(piece)) return;
+
+    dragAndDropInProgress = true;
 
     dndLocation = {
         x, y,
@@ -151,23 +153,59 @@ function handleMouseMove(event) {
 function handleMouseUp(event) {
     if (!dragAndDropInProgress) return;
 
-    dragAndDropInProgress = false;
-    dndPieceData = undefined;
-    dndLocation = undefined;
     
     const [x, y] = getLocalCoordinates(event);
     const [file, rank] = getCell(x,y);
+
+    const originCell = dndPieceData.originCell;
+
+    const inBounds = originCell.file >= 0 && originCell.file <= 7 &&
+        originCell.rank >= 0 && originCell.rank <= 7 &&
+        file >= 0 && file <= 7 && rank >= 0 && rank <= 7;
+
+    if (! inBounds) {
+        cancelDnd();
+        return;
+    }
+
+    const moveObject = buildMoveObject(originCell.file, originCell.rank, file, rank);
+    const result = logic.move(moveObject);
+
+    if ([null, undefined].includes(result)) {
+        cancelDnd();
+        return;
+    }
+
+    // Update the logic variable => update the board !
+    logic = logic;
+    cancelDnd();
 }
 
 function handleMouseExited(event) {
     if (!dragAndDropInProgress) return;
 
+    const [x, y] = getLocalCoordinates(event);
+
+    cancelDnd();
+}
+
+function cancelDnd() {
     dragAndDropInProgress = false;
     dndPieceData = undefined;
     dndLocation = undefined;
-
-    const [x, y] = getLocalCoordinates(event);
 }
+
+function buildMoveObject(startFile, startRank, endFile, endRank, promotion = 'q') {
+    const startAlgebraic = cellAlgebraic(startFile, startRank);
+    const endAlgebraic = cellAlgebraic(endFile, endRank);
+
+    return {
+        from: startAlgebraic,
+        to: endAlgebraic,
+        promotion,
+    };
+}
+
 
 function isDnDOriginCell(dndPieceData, file, rank) {
     if ([undefined, null].includes(dndPieceData)) return undefined;

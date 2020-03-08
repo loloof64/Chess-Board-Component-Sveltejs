@@ -1,6 +1,9 @@
+export function cellAlgebraic(file, rank) {
+    return `${String.fromCharCode('a'.charCodeAt(0) + file)}${String.fromCharCode('1'.charCodeAt(0) + rank)}`;
+}
+
 export function getPieceAt(chessLogic, file, rank) {
-    const cellAlgebraic = `${String.fromCharCode('a'.charCodeAt(0) + file)}${String.fromCharCode('1'.charCodeAt(0) + rank)}`;
-    const pieceValue = chessLogic.get(cellAlgebraic);
+    const pieceValue = chessLogic.get(cellAlgebraic(file, rank));
     return pieceValue;
 }
 
