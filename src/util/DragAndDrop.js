@@ -31,9 +31,19 @@ export function handleMouseDown({event, cellsSize, reversed, rootElement,
     setupDnd({x, y, file, rank, piece});
 }
 
-export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation, rootElement}) {
+export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation, 
+    rootElement, cancelDnd}) {
     if (!dragAndDropInProgress) return;
     const [x, y] = getLocalCoordinates(event, rootElement);
+
+    const thisComponentLocation = rootElement.getBoundingClientRect();
+    const inBounds = x >= 0 && x <= thisComponentLocation.width &&
+        y >= 0 && y <= thisComponentLocation.height;
+
+    if (!inBounds) {
+        cancelDnd();
+        return;
+    }
 
     updateDndLocation(x,y);
 }

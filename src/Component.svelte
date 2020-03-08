@@ -196,7 +196,7 @@ function updateDndLocation(x, y) {
      on:mousedown|preventDefault={(event) => handleMouseDown({event, cellsSize, reversed, rootElement, 
         logic, dragAndDropInProgress, setupDnd})}
      on:mousemove|preventDefault={(event) => handleMouseMove({event, dragAndDropInProgress,
-        updateDndLocation, rootElement})}
+        updateDndLocation, rootElement, cancelDnd})}
      on:mouseup|preventDefault={(event) => handleMouseUp({event, cellsSize, reversed, rootElement,
         logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic})}
      on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd})}
