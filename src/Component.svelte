@@ -11,6 +11,7 @@ export let coordinates_color = 'DarkOrange';
 
 export let origin_cell_color = 'crimson';
 export let target_cell_color = 'ForestGreen';
+export let dnd_cross_color = 'DimGrey';
 
 import WhitePawn from './pieces/WhitePawn.svelte';
 import WhiteKnight from './pieces/WhiteKnight.svelte';
@@ -115,6 +116,12 @@ $: dndOriginCellStyle = `
 
 $: dndTargetCellStyle = `
     background-color: ${target_cell_color};
+    width: ${cellsSize}px;
+    height: ${cellsSize}px;
+`;
+
+$: dndCrossCellStyle = `
+    background-color: ${dnd_cross_color};
     width: ${cellsSize}px;
     height: ${cellsSize}px;
 `;
@@ -237,60 +244,89 @@ function updateDndLocation(x, y, file, rank) {
                 <div class="cell" style="{((rank + file) % 2)  === 0 ? whiteCellsStyle : blackCellsStyle}">
                     {#if isDnDOriginCell(dndPieceData, file, rank)}
                         <div 
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : dndOriginCellStyle}
+                            style={
+                                targetFile !== file || targetRank !== rank ? dndOriginCellStyle : dndTargetCellStyle
+                            }
+                                
                         ></div>
                     {:else if isWhitePawnAtCell(logic, file, rank)}
                         <chess-white-pawn size={cellsSize} 
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''} 
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle  :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isWhiteKnightAtCell(logic, file, rank)}
                         <chess-white-knight size={cellsSize}
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                          />
                     {:else if isWhiteBishopAtCell(logic, file, rank)}
                         <chess-white-bishop size={cellsSize}
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                          />
                     {:else if isWhiteRookAtCell(logic, file, rank)}
                         <chess-white-rook size={cellsSize}
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                          />
                     {:else if isWhiteQueenAtCell(logic, file, rank)}
                         <chess-white-queen size={cellsSize} 
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isWhiteKingAtCell(logic, file, rank)}
                         <chess-white-king size={cellsSize}
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                          />
 
                     {:else if isBlackPawnAtCell(logic, file, rank)}
                         <chess-black-pawn size={cellsSize} 
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isBlackKnightAtCell(logic, file, rank)}
                         <chess-black-knight size={cellsSize} 
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isBlackBishopAtCell(logic, file, rank)}
                         <chess-black-bishop size={cellsSize} 
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isBlackRookAtCell(logic, file, rank)}
                         <chess-black-rook size={cellsSize} 
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isBlackQueenAtCell(logic, file, rank)}
                         <chess-black-queen size={cellsSize} 
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isBlackKingAtCell(logic, file, rank)}
                         <chess-black-king size={cellsSize} 
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else}
                         <div
-                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                            style={
+                                targetFile === file && targetRank === rank ? dndTargetCellStyle :
+                                (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         ></div>
                     {/if}
                 </div>
