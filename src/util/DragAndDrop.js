@@ -32,9 +32,10 @@ export function handleMouseDown({event, cellsSize, reversed, rootElement,
 }
 
 export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation, 
-    rootElement, cancelDnd}) {
+    rootElement, cancelDnd, cellsSize, reversed}) {
     if (!dragAndDropInProgress) return;
     const [x, y] = getLocalCoordinates(event, rootElement);
+    const [file, rank] = getCell({x,y,cellsSize, reversed});
 
     const thisComponentLocation = rootElement.getBoundingClientRect();
     const inBounds = x >= 0 && x <= thisComponentLocation.width &&
@@ -45,7 +46,7 @@ export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation
         return;
     }
 
-    updateDndLocation(x,y);
+    updateDndLocation(x,y, file, rank);
 }
 
 export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,

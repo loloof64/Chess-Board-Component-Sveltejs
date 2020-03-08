@@ -9,6 +9,9 @@ export let white_cell_color = 'GoldenRod';
 export let black_cell_color = 'brown';
 export let coordinates_color = 'DarkOrange';
 
+export let origin_cell_color = 'crimson';
+export let target_cell_color = 'ForestGreen';
+
 import WhitePawn from './pieces/WhitePawn.svelte';
 import WhiteKnight from './pieces/WhiteKnight.svelte';
 import WhiteBishop from './pieces/WhiteBishop.svelte';
@@ -104,6 +107,18 @@ $: coordinateStyle = `
     color: ${coordinates_color};
 `;
 
+$: dndOriginCellStyle = `
+    background-color: ${origin_cell_color};
+    width: ${cellsSize}px;
+    height: ${cellsSize}px;
+`;
+
+$: dndTargetCellStyle = `
+    background-color: ${target_cell_color};
+    width: ${cellsSize}px;
+    height: ${cellsSize}px;
+`;
+
 let whiteTurnStyle = `
     background-color: white;
 `;
@@ -114,8 +129,8 @@ let blackTurnStyle = `
 
 let dragAndDropInProgress;
 let dndPieceData;
-
-let dndLocation = undefined;
+let targetFile, targetRank;
+let dndLocation;
 
 $: dndPieceStyle = [null, undefined].includes(dndLocation) ? '' : `
     position: absolute;
@@ -127,6 +142,8 @@ function cancelDnd() {
     dragAndDropInProgress = false;
     dndPieceData = undefined;
     dndLocation = undefined;
+    targetFile = undefined;
+    targetRank = undefined;
 }
 
 function updateLogic() {
@@ -144,13 +161,19 @@ function setupDnd({x, y, file, rank, piece}) {
         originCell: {file, rank},
     };
 
+    targetFile = file;
+    targetRank = rank;
+
     dragAndDropInProgress = true;
 }
 
-function updateDndLocation(x, y) {
+function updateDndLocation(x, y, file, rank) {
     dndLocation = {
         x, y,
     };
+
+    targetFile = file;
+    targetRank = rank;
 }
 </script>
 
@@ -196,7 +219,7 @@ function updateDndLocation(x, y) {
      on:mousedown|preventDefault={(event) => handleMouseDown({event, cellsSize, reversed, rootElement, 
         logic, dragAndDropInProgress, setupDnd})}
      on:mousemove|preventDefault={(event) => handleMouseMove({event, dragAndDropInProgress,
-        updateDndLocation, rootElement, cancelDnd})}
+        updateDndLocation, rootElement, cancelDnd, cellsSize, reversed})}
      on:mouseup|preventDefault={(event) => handleMouseUp({event, cellsSize, reversed, rootElement,
         logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic})}
      on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd})}
@@ -213,34 +236,62 @@ function updateDndLocation(x, y) {
             {#each fileIndexes as file}
                 <div class="cell" style="{((rank + file) % 2)  === 0 ? whiteCellsStyle : blackCellsStyle}">
                     {#if isDnDOriginCell(dndPieceData, file, rank)}
-                        <div></div>
+                        <div 
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : dndOriginCellStyle}
+                        ></div>
                     {:else if isWhitePawnAtCell(logic, file, rank)}
-                        <chess-white-pawn size={cellsSize} />
+                        <chess-white-pawn size={cellsSize} 
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''} 
+                        />
                     {:else if isWhiteKnightAtCell(logic, file, rank)}
-                        <chess-white-knight size={cellsSize} />
+                        <chess-white-knight size={cellsSize}
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                         />
                     {:else if isWhiteBishopAtCell(logic, file, rank)}
-                        <chess-white-bishop size={cellsSize} />
+                        <chess-white-bishop size={cellsSize}
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                         />
                     {:else if isWhiteRookAtCell(logic, file, rank)}
-                        <chess-white-rook size={cellsSize} />
+                        <chess-white-rook size={cellsSize}
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                         />
                     {:else if isWhiteQueenAtCell(logic, file, rank)}
-                        <chess-white-queen size={cellsSize} />
+                        <chess-white-queen size={cellsSize} 
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                        />
                     {:else if isWhiteKingAtCell(logic, file, rank)}
-                        <chess-white-king size={cellsSize} />
+                        <chess-white-king size={cellsSize}
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                         />
 
                     {:else if isBlackPawnAtCell(logic, file, rank)}
-                        <chess-black-pawn size={cellsSize} />
+                        <chess-black-pawn size={cellsSize} 
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                        />
                     {:else if isBlackKnightAtCell(logic, file, rank)}
-                        <chess-black-knight size={cellsSize} />
+                        <chess-black-knight size={cellsSize} 
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                        />
                     {:else if isBlackBishopAtCell(logic, file, rank)}
-                        <chess-black-bishop size={cellsSize} />
+                        <chess-black-bishop size={cellsSize} 
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                        />
                     {:else if isBlackRookAtCell(logic, file, rank)}
-                        <chess-black-rook size={cellsSize} />
+                        <chess-black-rook size={cellsSize} 
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                        />
                     {:else if isBlackQueenAtCell(logic, file, rank)}
-                        <chess-black-queen size={cellsSize} />
+                        <chess-black-queen size={cellsSize} 
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                        />
                     {:else if isBlackKingAtCell(logic, file, rank)}
-                        <chess-black-king size={cellsSize} />
+                        <chess-black-king size={cellsSize} 
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                        />
                     {:else}
-                        <div></div>
+                        <div
+                            style={targetFile === file && targetRank === rank ? dndTargetCellStyle : ''}
+                        ></div>
                     {/if}
                 </div>
             {/each}
