@@ -151,7 +151,7 @@ let blackTurnStyle = `
 
 <style>
 #root {
-    position: relative;
+    position: absolute;
     display: grid;
 }
 
