@@ -1,3 +1,4 @@
+import commonjs from '@rollup/plugin-commonjs';
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import pkg from './package.json';
@@ -14,6 +15,9 @@ export default {
 		{ file: pkg.main, 'format': 'umd', name }
 	],
 	plugins: [
+		commonjs({namedExports: {
+			'chess': ['Chess'],
+		}}),
 		svelte({customElement: true}),
 		resolve()
 	]
