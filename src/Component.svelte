@@ -24,8 +24,6 @@ import BlackQueen from './pieces/BlackQueen.svelte';
 import BlackKing from './pieces/BlackKing.svelte';
 
 import {
-    columnIndexToFile,
-    lineIndexToRank,
     getPieceAt,
     isWhitePawnAtCell,
     isWhiteKnightAtCell,
@@ -45,7 +43,8 @@ import {Chess} from 'chess.js';
 
 let logic = new Chess();
 
-$: coordIndexes = [true, "true"].includes(reversed) ? [7,6,5,4,3,2,1,0] : [0,1,2,3,4,5,6,7];
+$: fileIndexes = [true, "true"].includes(reversed) ? [7,6,5,4,3,2,1,0] : [0,1,2,3,4,5,6,7];
+$: rankIndexes = [true, "true"].includes(reversed) ? [0,1,2,3,4,5,6,7] : [7,6,5,4,3,2,1,0];
 
 $: cellsSize = size / 9.0;
 $: halfCellsSize = cellsSize * 0.5;
@@ -136,6 +135,7 @@ function handleMouseDown(event) {
 
     dndPieceData = {
         ...piece,
+        originCell: {file, rank},
     };
 }
 
@@ -167,6 +167,15 @@ function handleMouseExited(event) {
     dndLocation = undefined;
 
     const [x, y] = getLocalCoordinates(event);
+}
+
+function isDnDOriginCell(dndPieceData, file, rank) {
+    if ([undefined, null].includes(dndPieceData)) return undefined;
+    
+    const originCell = dndPieceData.originCell;
+    if ([undefined, null].includes(originCell)) return undefined;
+
+    return originCell.file === file && originCell.rank === rank;
 }
 
 function isWhitePawnDragged(dndPieceData) {
@@ -276,51 +285,53 @@ function isBlackKingDragged(dndPieceData) {
 >
     <div class="lowest-layer" style={lowestLayerStyle}>
         <div></div>
-        {#each coordIndexes as columnIndex}
-            <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + columnIndex)}</div>
+        {#each fileIndexes as file}
+            <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</div>
         {/each}
         <div></div>
 
-        {#each coordIndexes as lineIndex}
-            <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + 7 - lineIndex)}</div>
-            {#each coordIndexes as columnIndex}
-                <div class="cell" style="{((lineIndex + columnIndex) % 2)  === 0 ? whiteCellsStyle : blackCellsStyle}">
-                    {#if isWhitePawnAtCell(logic, columnIndex, lineIndex)}
+        {#each rankIndexes as rank}
+            <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</div>
+            {#each fileIndexes as file}
+                <div class="cell" style="{((rank + file) % 2)  === 0 ? whiteCellsStyle : blackCellsStyle}">
+                    {#if isDnDOriginCell(dndPieceData, file, rank)}
+                        <div></div>
+                    {:else if isWhitePawnAtCell(logic, file, rank)}
                         <chess-white-pawn size={cellsSize} />
-                    {:else if isWhiteKnightAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isWhiteKnightAtCell(logic, file, rank)}
                         <chess-white-knight size={cellsSize} />
-                    {:else if isWhiteBishopAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isWhiteBishopAtCell(logic, file, rank)}
                         <chess-white-bishop size={cellsSize} />
-                    {:else if isWhiteRookAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isWhiteRookAtCell(logic, file, rank)}
                         <chess-white-rook size={cellsSize} />
-                    {:else if isWhiteQueenAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isWhiteQueenAtCell(logic, file, rank)}
                         <chess-white-queen size={cellsSize} />
-                    {:else if isWhiteKingAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isWhiteKingAtCell(logic, file, rank)}
                         <chess-white-king size={cellsSize} />
 
-                    {:else if isBlackPawnAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isBlackPawnAtCell(logic, file, rank)}
                         <chess-black-pawn size={cellsSize} />
-                    {:else if isBlackKnightAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isBlackKnightAtCell(logic, file, rank)}
                         <chess-black-knight size={cellsSize} />
-                    {:else if isBlackBishopAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isBlackBishopAtCell(logic, file, rank)}
                         <chess-black-bishop size={cellsSize} />
-                    {:else if isBlackRookAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isBlackRookAtCell(logic, file, rank)}
                         <chess-black-rook size={cellsSize} />
-                    {:else if isBlackQueenAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isBlackQueenAtCell(logic, file, rank)}
                         <chess-black-queen size={cellsSize} />
-                    {:else if isBlackKingAtCell(logic, columnIndex, lineIndex)}
+                    {:else if isBlackKingAtCell(logic, file, rank)}
                         <chess-black-king size={cellsSize} />
                     {:else}
                         <div></div>
                     {/if}
                 </div>
             {/each}
-            <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + 7 - lineIndex)}</div>
+            <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</div>
         {/each}
 
         <div></div>
-        {#each coordIndexes as columnIndex}
-            <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + columnIndex)}</div>
+        {#each fileIndexes as file}
+            <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</div>
         {/each}
         <div id="player-turn" style={logic.turn() === 'w' ? whiteTurnStyle : blackTurnStyle}></div>
     </div>
