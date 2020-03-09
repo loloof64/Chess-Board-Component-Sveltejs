@@ -263,6 +263,11 @@ export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR 
     logic = new Chess(position);
     gameInProgress = true;
     lastMove = undefined;
+    cancelDnd();
+}
+
+export function toggleSide() {
+    reversed = !reversed;
 }
 
 function cancelDnd() {
