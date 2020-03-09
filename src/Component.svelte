@@ -259,23 +259,24 @@ $: dndPieceStyle = [null, undefined].includes(dndLocation) ? '' : `
     top: ${dndLocation.y}px;
 `;
 
-export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
-    logic = new Chess(position);
-    gameInProgress = true;
-    lastMove = undefined;
-    cancelDnd();
-}
-
-export function toggleSide() {
-    reversed = !reversed;
-}
-
 function cancelDnd() {
     dragAndDropInProgress = false;
     dndPieceData = undefined;
     dndLocation = undefined;
     targetFile = undefined;
     targetRank = undefined;
+}
+
+export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
+    logic = new Chess(position);
+    gameInProgress = true;
+    lastMove = undefined;
+    promotionPending = false;
+    cancelDnd();
+}
+
+export function toggleSide() {
+    reversed = !reversed;
 }
 
 function setPromotionPending({startFile, startRank, endFile, endRank}) {
