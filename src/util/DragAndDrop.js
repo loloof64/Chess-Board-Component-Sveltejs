@@ -1,4 +1,5 @@
 import {getPieceAt, cellAlgebraic} from './PiecesTest';
+import { Chess } from 'chess.js';
 
 function getCell({x, y, cellsSize, reversed}) {
     const cellX = Math.floor((x - cellsSize * 0.5) / cellsSize);
@@ -32,8 +33,10 @@ export function handleMouseDown({event, cellsSize, reversed, rootElement,
 }
 
 export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation, 
-    rootElement, cancelDnd, cellsSize, reversed}) {
+    rootElement, cancelDnd, cellsSize, reversed, promotionPending}) {
     if (!dragAndDropInProgress) return;
+    if (promotionPending) return;
+
     const [x, y] = getLocalCoordinates(event, rootElement);
     const [file, rank] = getCell({x,y,cellsSize, reversed});
 
@@ -50,9 +53,10 @@ export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation
 }
 
 export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
-     dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic, updateLastMove}) {
+     dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic,
+     updateLastMove, promotionPending, setPromotionPending}) {
     if (!dragAndDropInProgress) return;
-
+    if (promotionPending) return;
     
     const [x, y] = getLocalCoordinates(event, rootElement);
     const [file, rank] = getCell({x,y,cellsSize, reversed});
@@ -65,6 +69,26 @@ export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
 
     if (! inBounds) {
         cancelDnd();
+        return;
+    }
+
+    const testMoveObject = buildMoveObject({startFile: originCell.file, startRank: originCell.rank,
+        endFile: file, endRank: rank});
+    const logicClone = new Chess(logic.fen());
+    const promotionTest = logicClone.move(testMoveObject);
+
+    const validTestMove = ![null, undefined].includes(promotionTest);
+    const pieceAtOriginCell = logic.get(cellAlgebraic(originCell.file, originCell.rank));
+    const isPawnMoving = pieceAtOriginCell && pieceAtOriginCell.type === 'p';
+    const targetOnFirstOrLastRank = rank === 0 || rank === 7;
+
+    const isPromotionMove = validTestMove && isPawnMoving && targetOnFirstOrLastRank;
+
+    if (isPromotionMove) {
+        setPromotionPending({
+            startFile: originCell.file, startRank: originCell.rank,
+            endFile: file, endRank: rank
+        });
         return;
     }
 
@@ -83,7 +107,8 @@ export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
     cancelDnd();
 }
 
-export function handleMouseExited({event, cancelDnd}) {
+export function handleMouseExited({event, cancelDnd, promotionPending}) {
+    if (promotionPending) return;
     cancelDnd();
 }
 

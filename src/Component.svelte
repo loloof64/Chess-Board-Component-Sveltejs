@@ -15,6 +15,8 @@ export let dnd_cross_color = 'DimGrey';
 
 export let move_highlight_color = 'CadetBlue';
 
+export let promotion_dialog_title = 'Select the promotion piece';
+
 import WhitePawn from './pieces/WhitePawn.svelte';
 import WhiteKnight from './pieces/WhiteKnight.svelte';
 import WhiteBishop from './pieces/WhiteBishop.svelte';
@@ -31,7 +33,6 @@ import BlackKing from './pieces/BlackKing.svelte';
 
 import {
     cellAlgebraic,
-    getPieceAt,
     isWhitePawnAtCell,
     isWhiteKnightAtCell,
     isWhiteBishopAtCell,
@@ -88,6 +89,9 @@ let lastMovePointLeft, lastMovePointTop;
 let lastMovePointWidth, lastMovePointHeight;
 let lastMovePointTransform, lastMovePointTransformOrigin;
 
+let promotionPending = false;
+let pendingPromotionMove = undefined;
+
 
 $: fileIndexes = [true, "true"].includes(reversed) ? [7,6,5,4,3,2,1,0] : [0,1,2,3,4,5,6,7];
 $: rankIndexes = [true, "true"].includes(reversed) ? [0,1,2,3,4,5,6,7] : [7,6,5,4,3,2,1,0];
@@ -112,6 +116,16 @@ $: lowestLayerStyle = `
 $: dndLayerStyle = `
     width: ${size}px;
     height: ${size}px;
+`;
+
+$: promotionOverlayStyle = `
+    width: ${size}px;
+    height: ${size}px;
+`;
+
+$: promotionStyle = `
+    width: ${size * 0.8}px;
+    height: ${size * 0.6}px;
 `;
 
 $: whiteCellsStyle = `
@@ -212,12 +226,15 @@ $: lastMovePointStyle = `
 
 $: halfThickness = cellsSize * 0.08;
 
-let whiteTurnStyle = `
-    background-color: white;
+$: promotionTitleStyle = `
+    margin: ${cellsSize * 0.4}px;
+    font-size: ${cellsSize * 0.6}px;
 `;
 
-let blackTurnStyle = `
-    background-color: black;
+$: promotionButtonStyle = `
+    border: ${cellsSize * 0.08}px solid black;
+    padding: ${cellsSize * 0.01}px;
+    margin: ${cellsSize * 0.2}px;
 `;
 
 let dragAndDropInProgress;
@@ -237,6 +254,31 @@ function cancelDnd() {
     dndLocation = undefined;
     targetFile = undefined;
     targetRank = undefined;
+}
+
+function setPromotionPending({startFile, startRank, endFile, endRank}) {
+    promotionPending = true;
+    pendingPromotionMove = {
+        startFile, startRank,
+        endFile, endRank,
+    };
+}
+
+function commitPromotionMove(type) {
+    const moveObject = {
+        from: cellAlgebraic(pendingPromotionMove.startFile, pendingPromotionMove.startRank),
+        to: cellAlgebraic(pendingPromotionMove.endFile, pendingPromotionMove.endRank),
+        promotion: type,
+    }
+    logic.move(moveObject);
+    // Update the logic variable => update the board !
+    logic = logic;
+
+    cancelDnd();
+    updateLastMove({...pendingPromotionMove})
+
+    pendingPromotionMove = undefined;
+    promotionPending = false;
 }
 
 function updateLogic() {
@@ -389,6 +431,35 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
     z-index: 4;
 }
 
+.promotion-overlay-layer {
+    position: absolute;
+    z-index: 5;
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.promotion-layer {
+    position: absolute;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.promotion-title {
+    font-weight: bold;
+}
+
+.promotion-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .cell {
     display: flex;
     justify-content: center;
@@ -412,6 +483,14 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
 .player-turn {
     border-radius: 50%;
 }
+
+.white-turn {
+    background-color: white;
+}
+
+.black-turn {
+    background-color: black;
+}
 </style>
 
 <svelte:options tag="loloof64-chessboard" />
@@ -419,10 +498,11 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
      on:mousedown|preventDefault={(event) => handleMouseDown({event, cellsSize, reversed, rootElement, 
         logic, dragAndDropInProgress, setupDnd})}
      on:mousemove|preventDefault={(event) => handleMouseMove({event, dragAndDropInProgress,
-        updateDndLocation, rootElement, cancelDnd, cellsSize, reversed})}
+        updateDndLocation, rootElement, cancelDnd, cellsSize, reversed, promotionPending})}
      on:mouseup|preventDefault={(event) => handleMouseUp({event, cellsSize, reversed, rootElement,
-        logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic, updateLastMove})}
-     on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd})}
+        logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic,
+         updateLastMove, promotionPending, setPromotionPending})}
+     on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd, promotionPending})}
 >
     <div class="lowest-layer" style={lowestLayerStyle}>
         <div></div>
@@ -531,7 +611,7 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
         {#each fileIndexes as file}
             <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</div>
         {/each}
-        <div class="player-turn" style={logic.turn() === 'w' ? whiteTurnStyle : blackTurnStyle}></div>
+        <div class="player-turn {logic.turn() === 'w' ? 'white-turn' : 'black-turn'}"></div>
     </div>
 
     <div class="dnd-layer">
@@ -564,10 +644,55 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
         {/if}
     </div>
 
-    <div class="last-move-layer">
+    <div class="last-move-layer" style={dndLayerStyle}>
         <div class="last-move-line" style={lastMoveBaseLineStyle}></div>
         <div class="last-move-line" style={lastMoveArrow1Style}></div>
         <div class="last-move-line" style={lastMoveArrow2Style}></div>
         <div class="last-move-line" style={lastMovePointStyle}></div>
     </div>
+
+    {#if promotionPending === true}
+        <div class="promotion-overlay-layer" style={promotionOverlayStyle}>
+            <div class="promotion-layer" style={promotionStyle}>
+                <div class="promotion-title" style={promotionTitleStyle}>{promotion_dialog_title}</div>
+                <div class="promotion-buttons">
+                    {#if logic.turn() === 'w'}
+                        <chess-white-queen 
+                            style={promotionButtonStyle} size={cellsSize}
+                            on:click={() => commitPromotionMove('q')}
+                        />
+                        <chess-white-rook 
+                            style={promotionButtonStyle} size={cellsSize}
+                            on:click={() => commitPromotionMove('r')}
+                        />
+                        <chess-white-bishop 
+                            style={promotionButtonStyle} size={cellsSize}
+                            on:click={() => commitPromotionMove('b')} 
+                        />
+                        <chess-white-knight 
+                            style={promotionButtonStyle} size={cellsSize}
+                            on:click={() => commitPromotionMove('n')} 
+                        />
+                    {:else}
+                        <chess-black-queen 
+                            style={promotionButtonStyle} size={cellsSize}
+                            on:click={() => commitPromotionMove('q')}
+                        />
+                        <chess-black-rook 
+                            style={promotionButtonStyle} size={cellsSize}
+                            on:click={() => commitPromotionMove('r')} 
+                        />
+                        <chess-black-bishop 
+                            style={promotionButtonStyle} size={cellsSize}
+                            on:click={() => commitPromotionMove('b')} 
+                        />
+                        <chess-black-knight 
+                            style={promotionButtonStyle} size={cellsSize}
+                            on:click={() => commitPromotionMove('n')}
+                        />
+                    {/if}
+                </div>
+            </div>
+        </div>
+    {/if}
 </div>
