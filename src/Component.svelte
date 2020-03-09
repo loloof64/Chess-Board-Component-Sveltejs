@@ -289,6 +289,8 @@ function commitPromotionMove(type) {
 
     pendingPromotionMove = undefined;
     promotionPending = false;
+
+    handleGameEndedStatus();
 }
 
 function updateLogic() {
@@ -418,6 +420,36 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
         }
     };
 }
+
+function handleGameEndedStatus() {
+    if (logic.in_checkmate()) {
+        cancelDnd();
+        gameInProgress = false;
+        dispatch('checkmate', {whiteTurnBeforeMove: logic.turn() !== 'w'});
+    }
+    else if (logic.in_stalemate()) {
+        cancelDnd();
+        gameInProgress = false;
+        dispatch('stalemate');
+    }
+    else if (logic.in_threefold_repetition()) {
+        cancelDnd();
+        gameInProgress = false;
+        dispatch('perpetual_draw');
+    }
+    else if (logic.in_draw()) {
+        if (logic.insufficient_material()) {
+            cancelDnd();
+            gameInProgress = false;
+            dispatch('missing_material_draw');
+        }
+        else {
+            cancelDnd();
+            gameInProgress = false;
+            dispatch('fifty_moves_draw');
+        }
+    }
+}
 </script>
 
 <style>
@@ -512,7 +544,7 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
         updateDndLocation, rootElement, cancelDnd, cellsSize, reversed, promotionPending, gameInProgress})}
      on:mouseup|preventDefault={(event) => handleMouseUp({event, cellsSize, reversed, rootElement,
         logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic,
-         updateLastMove, promotionPending, setPromotionPending, gameInProgress})}
+         updateLastMove, promotionPending, setPromotionPending, gameInProgress, handleGameEndedStatus})}
      on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd, promotionPending, gameInProgress})}
 >
     <div class="lowest-layer" style={lowestLayerStyle}>
