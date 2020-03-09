@@ -1,6 +1,13 @@
 <script>
-import { createEventDispatcher } from 'svelte';
-const dispatch = createEventDispatcher();
+import { createEventDispatcher, onMount } from 'svelte';
+import { get_current_component } from "svelte/internal"
+
+const component = get_current_component()
+const svelteDispatch = createEventDispatcher()
+const dispatch = (name, detail) => {
+	svelteDispatch(name, detail)
+	component.dispatchEvent && component.dispatchEvent(new CustomEvent(name, { detail }))
+}
 
 let rootElement;
 let gameInProgress = false;
