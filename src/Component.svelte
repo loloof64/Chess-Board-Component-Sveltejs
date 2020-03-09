@@ -1,5 +1,9 @@
 <script>
+import { createEventDispatcher } from 'svelte';
+const dispatch = createEventDispatcher();
+
 let rootElement;
+let gameInProgress = false;
 
 export let size = 100;
 export let background = '#124589';
@@ -70,7 +74,7 @@ import {
 import {Chess} from 'chess.js';
 
 
-let logic = new Chess();
+let logic = new Chess('8/8/8/8/8/8/8/8 w - - 0 1');
 let lastMove;
 
 let lastMoveBaselineLeft, lastMoveBaselineTop;
@@ -247,6 +251,12 @@ $: dndPieceStyle = [null, undefined].includes(dndLocation) ? '' : `
     left: ${dndLocation.x}px;
     top: ${dndLocation.y}px;
 `;
+
+export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
+    logic = new Chess(position);
+    gameInProgress = true;
+    lastMove = undefined;
+}
 
 function cancelDnd() {
     dragAndDropInProgress = false;
@@ -497,13 +507,13 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
 <svelte:options tag="loloof64-chessboard" />
 <div class="root" bind:this={rootElement} style={rootStyle}
      on:mousedown|preventDefault={(event) => handleMouseDown({event, cellsSize, reversed, rootElement, 
-        logic, dragAndDropInProgress, setupDnd})}
+        logic, dragAndDropInProgress, setupDnd, gameInProgress})}
      on:mousemove|preventDefault={(event) => handleMouseMove({event, dragAndDropInProgress,
-        updateDndLocation, rootElement, cancelDnd, cellsSize, reversed, promotionPending})}
+        updateDndLocation, rootElement, cancelDnd, cellsSize, reversed, promotionPending, gameInProgress})}
      on:mouseup|preventDefault={(event) => handleMouseUp({event, cellsSize, reversed, rootElement,
         logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic,
-         updateLastMove, promotionPending, setPromotionPending})}
-     on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd, promotionPending})}
+         updateLastMove, promotionPending, setPromotionPending, gameInProgress})}
+     on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd, promotionPending, gameInProgress})}
 >
     <div class="lowest-layer" style={lowestLayerStyle}>
         <div></div>

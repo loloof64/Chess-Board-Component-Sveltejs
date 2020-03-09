@@ -22,7 +22,8 @@ function getLocalCoordinates(event, rootElement) {
 }
 
 export function handleMouseDown({event, cellsSize, reversed, rootElement,
-     logic, setupDnd}) {
+     logic, setupDnd, gameInProgress}) {
+    if (!gameInProgress) return;
     const [x, y] = getLocalCoordinates(event, rootElement);
     const [file, rank] = getCell({x,y,cellsSize, reversed});
 
@@ -33,7 +34,8 @@ export function handleMouseDown({event, cellsSize, reversed, rootElement,
 }
 
 export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation, 
-    rootElement, cancelDnd, cellsSize, reversed, promotionPending}) {
+    rootElement, cancelDnd, cellsSize, reversed, promotionPending, gameInProgress}) {
+    if (!gameInProgress) return;
     if (!dragAndDropInProgress) return;
     if (promotionPending) return;
 
@@ -54,7 +56,8 @@ export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation
 
 export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
      dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic,
-     updateLastMove, promotionPending, setPromotionPending}) {
+     updateLastMove, promotionPending, setPromotionPending, gameInProgress}) {
+    if (!gameInProgress) return;
     if (!dragAndDropInProgress) return;
     if (promotionPending) return;
     
@@ -107,7 +110,8 @@ export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
     cancelDnd();
 }
 
-export function handleMouseExited({event, cancelDnd, promotionPending}) {
+export function handleMouseExited({event, cancelDnd, promotionPending, gameInProgress}) {
+    if (!gameInProgress) return;
     if (promotionPending) return;
     cancelDnd();
 }
