@@ -228,7 +228,7 @@ $: halfThickness = cellsSize * 0.08;
 
 $: promotionTitleStyle = `
     margin: ${cellsSize * 0.4}px;
-    font-size: ${cellsSize * 0.6}px;
+    font-size: ${cellsSize * 0.5}px;
 `;
 
 $: promotionButtonStyle = `
@@ -452,6 +452,7 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
 
 .promotion-title {
     font-weight: bold;
+    color: black;
 }
 
 .promotion-buttons {
