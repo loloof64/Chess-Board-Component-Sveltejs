@@ -11,6 +11,7 @@ const dispatch = (name, detail) => {
 
 let rootElement;
 let gameInProgress = false;
+let waitingForExternalMove = false;
 
 export let size = 100;
 export let background = '#124589';
@@ -27,6 +28,9 @@ export let dnd_cross_color = 'DimGrey';
 export let move_highlight_color = 'CadetBlue';
 
 export let promotion_dialog_title = 'Select the promotion piece';
+
+export let white_player_human = 'true';
+export let black_player_human = 'true';
 
 import WhitePawn from './pieces/WhitePawn.svelte';
 import WhiteKnight from './pieces/WhiteKnight.svelte';
@@ -267,12 +271,20 @@ function cancelDnd() {
     targetRank = undefined;
 }
 
+function updateWaitingForExternalMove() {
+    if (!gameInProgress) return;
+    const whiteTurn = logic.turn() === 'w';
+    waitingForExternalMove = (whiteTurn && ![true, "true"].includes(white_player_human)) ||
+        (!whiteTurn && ![true, "true"].includes(black_player_human));
+}
+
 export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
     logic = new Chess(position);
-    gameInProgress = true;
     lastMove = undefined;
     promotionPending = false;
     cancelDnd();
+    updateWaitingForExternalMove();
+    gameInProgress = true;
 }
 
 export function toggleSide() {
@@ -312,6 +324,7 @@ function commitPromotionMove(type) {
     promotionPending = false;
 
     handleGameEndedStatus();
+    updateWaitingForExternalMove();
 }
 
 function updateLogic() {
@@ -560,13 +573,16 @@ function handleGameEndedStatus() {
 <svelte:options tag="loloof64-chessboard" />
 <div class="root" bind:this={rootElement} style={rootStyle}
      on:mousedown|preventDefault={(event) => handleMouseDown({event, cellsSize, reversed, rootElement, 
-        logic, dragAndDropInProgress, setupDnd, gameInProgress})}
+        logic, dragAndDropInProgress, setupDnd, gameInProgress, waitingForExternalMove})}
      on:mousemove|preventDefault={(event) => handleMouseMove({event, dragAndDropInProgress,
-        updateDndLocation, rootElement, cancelDnd, cellsSize, reversed, promotionPending, gameInProgress})}
+        updateDndLocation, rootElement, cancelDnd, cellsSize, reversed, 
+        promotionPending, gameInProgress, waitingForExternalMove})}
      on:mouseup|preventDefault={(event) => handleMouseUp({event, cellsSize, reversed, rootElement,
         logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic,
-         updateLastMove, promotionPending, setPromotionPending, gameInProgress, handleGameEndedStatus})}
-     on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd, promotionPending, gameInProgress})}
+         updateLastMove, promotionPending, setPromotionPending, gameInProgress, 
+         handleGameEndedStatus, updateWaitingForExternalMove, waitingForExternalMove})}
+     on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd, promotionPending, 
+        gameInProgress, waitingForExternalMove})}
 >
     <div class="lowest-layer" style={lowestLayerStyle}>
         <div></div>

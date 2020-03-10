@@ -22,8 +22,9 @@ function getLocalCoordinates(event, rootElement) {
 }
 
 export function handleMouseDown({event, cellsSize, reversed, rootElement,
-     logic, setupDnd, gameInProgress}) {
+     logic, setupDnd, gameInProgress, waitingForExternalMove}) {
     if (!gameInProgress) return;
+    if (waitingForExternalMove) return;
     const [x, y] = getLocalCoordinates(event, rootElement);
     const [file, rank] = getCell({x,y,cellsSize, reversed});
 
@@ -34,8 +35,10 @@ export function handleMouseDown({event, cellsSize, reversed, rootElement,
 }
 
 export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation, 
-    rootElement, cancelDnd, cellsSize, reversed, promotionPending, gameInProgress}) {
+    rootElement, cancelDnd, cellsSize, reversed, promotionPending,
+     gameInProgress, waitingForExternalMove}) {
     if (!gameInProgress) return;
+    if (waitingForExternalMove) return;
     if (!dragAndDropInProgress) return;
     if (promotionPending) return;
 
@@ -57,8 +60,9 @@ export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation
 export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
      dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic,
      updateLastMove, promotionPending, setPromotionPending, gameInProgress,
-     handleGameEndedStatus}) {
+     handleGameEndedStatus, updateWaitingForExternalMove, waitingForExternalMove}) {
     if (!gameInProgress) return;
+    if (waitingForExternalMove) return;
     if (!dragAndDropInProgress) return;
     if (promotionPending) return;
     
@@ -111,10 +115,13 @@ export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
     cancelDnd();
 
     handleGameEndedStatus();
+    updateWaitingForExternalMove();
 }
 
-export function handleMouseExited({event, cancelDnd, promotionPending, gameInProgress}) {
+export function handleMouseExited({event, cancelDnd, promotionPending, 
+    gameInProgress, waitingForExternalMove}) {
     if (!gameInProgress) return;
+    if (waitingForExternalMove) return;
     if (promotionPending) return;
     cancelDnd();
 }
