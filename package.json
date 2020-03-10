@@ -1,5 +1,12 @@
 {
-  "name": "SvelteComponent",
+  "name": "@loloof64/chessboard-component",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "Laurent Bernabe",
+    "email": "laurent.bernabe@gmail.com",
+    "url": "https://github.com/loloof64",
+  },
   "svelte": "src/index.js",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
