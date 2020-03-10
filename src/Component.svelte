@@ -276,6 +276,8 @@ function updateWaitingForExternalMove() {
     const whiteTurn = logic.turn() === 'w';
     waitingForExternalMove = (whiteTurn && ![true, "true"].includes(white_player_human)) ||
         (!whiteTurn && ![true, "true"].includes(black_player_human));
+
+    if (waitingForExternalMove) dispatch('waiting_manual_move');
 }
 
 export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
@@ -297,6 +299,32 @@ export function isWhiteTurn() {
 
 export function getCurrentPosition() {
     return logic.fen();
+}
+
+export function playMove({ startFile, startRank, endFile, endRank, promotion = 'q'}) {
+    if (!gameInProgress) return;
+    if (!waitingForExternalMove) return;
+
+    const moveObject = {
+        from: cellAlgebraic(startFile, startRank),
+        to: cellAlgebraic(endFile, endRank),
+        promotion,
+    }
+
+    const result = logic.move(moveObject);
+    // Illegal move
+    if (! result) return;
+
+    // Update the logic variable => update the board !
+    logic = logic;
+
+    updateLastMove({
+        startFile, startRank,
+        endFile, endRank,
+    });
+    
+    handleGameEndedStatus();
+    updateWaitingForExternalMove();
 }
 
 function setPromotionPending({startFile, startRank, endFile, endRank}) {

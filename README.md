@@ -51,11 +51,7 @@ Usage
 * toggleSide() : Toggle the reversed state of the board: that is "Is black side at top ?"
 * isWhiteTurn() : Boolean. true if it is White turn, false otherwise.
 * getCurrentPosition(): String. Returns the current position in Forsyth-Edwards Notation.
-* playMove({
-        startCellFile, startCellRank,
-        endCellFile, endCellRank,
-        promotion = 'q',
-  }): Tries to play the given move on the component, only if the current player is defined as an external user. Returns a Promise. All coordinates, integers, start from 0 (file 0 = 'A', rank 0 = '1'). Valid promotion values are 'q', 'r', 'b' and 'n'.
+* playMove( startFile, startRank, endFile, endRank, promotion = 'q'): Tries to play the given move on the component, only if the current player is defined as an external user. Returns a Promise. All coordinates, integers, start from 0 (file 0 = 'A', rank 0 = '1'). Valid promotion values are 'q', 'r', 'b' and 'n'.
 
 ### Events
 
@@ -64,6 +60,7 @@ Usage
 * perpetual_draw: Informs that a 3-fold repetitions draw has just happened on the board. No additional property.
 * missing_material_draw : Informs that a draw by missing material has just happened on the board. No additional property.
 * fifty_moves_draw: Informs that a draw by the 50 moves rule has just happened on the board. No additional property.
+* waiting_manual_move: Informs that the component has just landed in the 'waiting manual move' state. That means that the move for the current player has to be commited with a call to playMove() (and with a legal move of course, the only way to progress in the game).
 
 ## Developers
 
