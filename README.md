@@ -44,21 +44,18 @@ Usage
 
 (1) External player means that, instead of playing its move with interaction on the board, call the method `playMove` in order to commit its move. A simple use case would be to let an engine play.
 
-### Properties
-
-* isWhiteTurn : Boolean. true if it is White turn, false otherwise.
-* currentPosition: String. Returns the current position in Forsyth-Edwards Notation.
-
 
 ### Methods
 
+* newGame(startPositionFen): Starts a new game with the given position in Forsyth-Edwards Notation. If the startPositionFen string is not given, will use the default chess start position.
 * toggleSide() : Toggle the reversed state of the board: that is "Is black side at top ?"
+* isWhiteTurn() : Boolean. true if it is White turn, false otherwise.
+* getCurrentPosition(): String. Returns the current position in Forsyth-Edwards Notation.
 * playMove({
         startCellFile, startCellRank,
         endCellFile, endCellRank,
         promotion = 'q',
   }): Tries to play the given move on the component, only if the current player is defined as an external user. Returns a Promise. All coordinates, integers, start from 0 (file 0 = 'A', rank 0 = '1'). Valid promotion values are 'q', 'r', 'b' and 'n'.
-* newGame(startPositionFen): Starts a new game with the given position in Forsyth-Edwards Notation. If the startPositionFen string is not given, will use the default chess start position.
 
 ### Events
 

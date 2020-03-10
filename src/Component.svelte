@@ -279,6 +279,14 @@ export function toggleSide() {
     reversed = !reversed;
 }
 
+export function isWhiteTurn() {
+    return logic.turn() === 'w';
+}
+
+export function getCurrentPosition() {
+    return logic.fen();
+}
+
 function setPromotionPending({startFile, startRank, endFile, endRank}) {
     promotionPending = true;
     pendingPromotionMove = {
