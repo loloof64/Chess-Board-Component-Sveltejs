@@ -5,7 +5,7 @@
   "author": {
     "name": "Laurent Bernabe",
     "email": "laurent.bernabe@gmail.com",
-    "url": "https://github.com/loloof64",
+    "url": "https://github.com/loloof64"
   },
   "svelte": "src/index.js",
   "module": "dist/index.mjs",

@@ -6,6 +6,10 @@ A chess board web component
 
 Usage
 
+* Run `npm init` if needed
+* Install the package with `npm i @loloof64/chessboard-component`
+* load the script from `node_modules/@loloof64/chessboard-component/dist/index` (just load it, as it will define the web component `loloof64-chessboard`).
+
 ```javascript
 <loloof64-chessboard
     size="300"
