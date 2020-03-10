@@ -2,7 +2,7 @@
 
 A chess board web component
 
-## Component reference (not all available for now, wip)
+## Component reference
 
 Usage
 
