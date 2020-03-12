@@ -59,12 +59,13 @@ Usage
 
 ### Events
 
-* checkmate : Informs that a checkmate has just happened on the board. The property `detail.whiteTurnBeforeMove` of the event tells if the side that checkmated were White or Black.
-* stalemate : Informs that a stalemate has just happended on the board. No additional property.
-* perpetual_draw: Informs that a 3-fold repetitions draw has just happened on the board. No additional property.
-* missing_material_draw : Informs that a draw by missing material has just happened on the board. No additional property.
-* fifty_moves_draw: Informs that a draw by the 50 moves rule has just happened on the board. No additional property.
-* waiting_manual_move: Informs that the component has just landed in the 'waiting manual move' state. That means that the move for the current player has to be commited with a call to playMove() (and with a legal move of course, the only way to progress in the game).
+* checkmate : Informs that a checkmate has just happened on the board. The payload `detail.whiteTurnBeforeMove` of the event tells if the side that checkmated were White or Black.
+* stalemate : Informs that a stalemate has just happended on the board. No additional payload.
+* perpetual_draw: Informs that a 3-fold repetitions draw has just happened on the board. No additional payload.
+* missing_material_draw : Informs that a draw by missing material has just happened on the board. No additional payload.
+* fifty_moves_draw: Informs that a draw by the 50 moves rule has just happened on the board. No additional payload.
+* waiting_manual_move: Informs that the component has just landed in the 'waiting manual move' state. That means that the move for the current player has to be commited with a call to playMove() (and with a legal move of course, the only way to progress in the game). No additional payload, but you should call isWhiteTurn() and getCurrentPosition() as clues.
+* move_done: Informs that a move has happened on the board, whatever the way (human or external player). The payload `detail.moveObject` is an object with all the details : moveNumber, whiteTurn, moveFan, moveSan, fromFileIndex, fromRankIndex, toFileIndex, toRankIndex.
 
 ## Developers
 

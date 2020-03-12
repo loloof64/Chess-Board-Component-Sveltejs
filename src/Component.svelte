@@ -311,6 +311,8 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
         promotion,
     }
 
+    const logicBeforeMove = new Chess(logic.fen());
+
     const result = logic.move(moveObject);
     // Illegal move
     if (! result) return;
@@ -318,9 +320,11 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
     // Update the logic variable => update the board !
     logic = logic;
 
-    updateLastMove({
+    updateAndEmitLastMove({
         startFile, startRank,
         endFile, endRank,
+        logicBeforeMove,
+        logicAfterMove: logic,
     });
     
     handleGameEndedStatus();
@@ -341,12 +345,16 @@ function commitPromotionMove(type) {
         to: cellAlgebraic(pendingPromotionMove.endFile, pendingPromotionMove.endRank),
         promotion: type,
     }
+
+    const logicBeforeMove = new Chess(logic.fen());
+
     logic.move(moveObject);
     // Update the logic variable => update the board !
     logic = logic;
 
     cancelDnd();
-    updateLastMove({...pendingPromotionMove})
+    updateAndEmitLastMove({...pendingPromotionMove,
+     logicBeforeMove, logicAfterMove: logic});
 
     pendingPromotionMove = undefined;
     promotionPending = false;
@@ -472,7 +480,7 @@ $: {
     }
 }
 
-function updateLastMove({startFile, startRank, endFile, endRank}){
+function updateAndEmitLastMove({logicBeforeMove, logicAfterMove, startFile, startRank, endFile, endRank}){
     lastMove = {
         start: {
             file: startFile, rank: startRank,
@@ -481,7 +489,36 @@ function updateLastMove({startFile, startRank, endFile, endRank}){
             file: endFile, rank: endRank,
         }
     };
+
+    const moveNumber = logicBeforeMove.fen().split(" ")[5];
+    const allMovesHistory = logicAfterMove.history();
+    const whiteTurnBeforeMove = logicBeforeMove.turn() === 'w';
+    const moveSan = allMovesHistory[allMovesHistory.length - 1];
+    const moveFan = convertMoveSanToMoveFan({moveSan, whiteTurn: whiteTurnBeforeMove});
+
+    const lastMoveEventPayload = {
+        moveNumber,
+        whiteTurn: whiteTurnBeforeMove,
+        moveSan,
+        moveFan,
+        fromFileIndex: startFile,
+        fromRankIndex: startRank,
+        toFileIndex: endFile,
+        toRankIndex: endRank,
+    };
+
+    dispatch('move_done', {moveObject: lastMoveEventPayload});
 }
+
+function convertMoveSanToMoveFan({moveSan, whiteTurn}) {
+    moveSan = moveSan.replace(/K/g, whiteTurn ? '\u2654' : '\u265A').normalize("NFKC");
+    moveSan = moveSan.replace(/Q/g, whiteTurn ? '\u2655' : '\u265B').normalize("NFKC");
+    moveSan = moveSan.replace(/R/g, whiteTurn ? '\u2656' : '\u265C').normalize("NFKC");
+    moveSan = moveSan.replace(/B/g, whiteTurn ? '\u2657' : '\u265D').normalize("NFKC");
+    moveSan = moveSan.replace(/N/g, whiteTurn ? '\u2658' : '\u265E').normalize("NFKC");
+
+    return moveSan;
+};
 
 function handleGameEndedStatus() {
     if (logic.in_checkmate()) {
@@ -607,7 +644,7 @@ function handleGameEndedStatus() {
         promotionPending, gameInProgress, waitingForExternalMove})}
      on:mouseup|preventDefault={(event) => handleMouseUp({event, cellsSize, reversed, rootElement,
         logic, dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic,
-         updateLastMove, promotionPending, setPromotionPending, gameInProgress, 
+         updateAndEmitLastMove, promotionPending, setPromotionPending, gameInProgress, 
          handleGameEndedStatus, updateWaitingForExternalMove, waitingForExternalMove})}
      on:mouseleave|preventDefault={(event) => handleMouseExited({event, cancelDnd, promotionPending, 
         gameInProgress, waitingForExternalMove})}

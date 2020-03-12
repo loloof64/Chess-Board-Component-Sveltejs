@@ -59,7 +59,7 @@ export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation
 
 export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
      dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic,
-     updateLastMove, promotionPending, setPromotionPending, gameInProgress,
+     updateAndEmitLastMove, promotionPending, setPromotionPending, gameInProgress,
      handleGameEndedStatus, updateWaitingForExternalMove, waitingForExternalMove}) {
     if (!gameInProgress) return;
     if (waitingForExternalMove) return;
@@ -102,6 +102,8 @@ export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
 
     const moveObject = buildMoveObject({startFile: originCell.file, startRank: originCell.rank,
          endFile: file, endRank: rank});
+
+    const logicBeforeMove = new Chess(logic.fen());
     const result = logic.move(moveObject);
 
     if ([null, undefined].includes(result)) {
@@ -110,8 +112,8 @@ export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
     }
 
     updateLogic();
-    updateLastMove({startFile: originCell.file, startRank: originCell.rank,
-        endFile: file, endRank: rank});
+    updateAndEmitLastMove({startFile: originCell.file, startRank: originCell.rank,
+        endFile: file, endRank: rank, logicBeforeMove, logicAfterMove: logic});
     cancelDnd();
 
     handleGameEndedStatus();
