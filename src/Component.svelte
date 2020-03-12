@@ -553,7 +553,7 @@ function handleGameEndedStatus() {
 
 <style>
 .root {
-    position: absolute;
+    position: relative;
 }
 
 .lowest-layer {
