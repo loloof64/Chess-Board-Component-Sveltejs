@@ -331,6 +331,25 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
     updateWaitingForExternalMove();
 }
 
+export function setPositionAndLastMove({
+    positionFen,
+    fromFileIndex, fromRankIndex,
+    toFileIndex, toRankIndex,
+}) {
+    if (gameInProgress) return;
+
+    logic = new Chess(positionFen);
+
+    lastMove = {
+        start: {
+            file: fromFileIndex, rank: fromRankIndex,
+        },
+        end: {
+            file: toFileIndex, rank: toRankIndex,
+        }
+    };
+}
+
 function setPromotionPending({startFile, startRank, endFile, endRank}) {
     promotionPending = true;
     pendingPromotionMove = {
@@ -501,6 +520,7 @@ function updateAndEmitLastMove({logicBeforeMove, logicAfterMove, startFile, star
         whiteTurn: whiteTurnBeforeMove,
         moveSan,
         moveFan,
+        positionFen: logicAfterMove.fen(),
         fromFileIndex: startFile,
         fromRankIndex: startRank,
         toFileIndex: endFile,
