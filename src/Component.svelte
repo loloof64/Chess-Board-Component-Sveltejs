@@ -351,7 +351,7 @@ export function setPositionAndLastMove({
 }
 
 export function stop() {
-    this.cancelDnd();
+    cancelDnd();
     waitingForExternalMove = false;
     promotionPending = false;
     gameInProgress = false;
