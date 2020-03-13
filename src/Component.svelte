@@ -357,6 +357,10 @@ export function stop() {
     gameInProgress = false;
 }
 
+export function gameIsInProgress() {
+    return gameInProgress;
+}
+
 function setPromotionPending({startFile, startRank, endFile, endRank}) {
     promotionPending = true;
     pendingPromotionMove = {

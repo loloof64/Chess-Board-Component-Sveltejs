@@ -58,6 +58,7 @@ Usage
 * playMove({startFile, startRank, endFile, endRank, promotion = 'q'}): Tries to play the given move on the component, only if the current player is defined as an external user. Returns a Promise. All coordinates, integers, start from 0 (file 0 = 'A', rank 0 = '1'). Valid promotion values are 'q', 'r', 'b' and 'n'.
 * setPositionAndLastMove({positionFen, fromFileIndex, fromRankIndex, toFileIndex, toRankIndex}) : you can set up the position and last move arrow, ** if the game is not in progress ** (otherwise won't have any effect). Particularly useful for history managers.
 * stop(): we stop the game.
+* gameIsInProgress(): returns a boolean telling us if the game is in progress, or no game is running.
 
 ### Events
 
