@@ -350,6 +350,13 @@ export function setPositionAndLastMove({
     };
 }
 
+export function stop() {
+    this.cancelDnd();
+    waitingForExternalMove = false;
+    promotionPending = false;
+    gameInProgress = false;
+}
+
 function setPromotionPending({startFile, startRank, endFile, endRank}) {
     promotionPending = true;
     pendingPromotionMove = {
