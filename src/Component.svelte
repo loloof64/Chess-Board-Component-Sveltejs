@@ -12,6 +12,7 @@ const dispatch = (name, detail) => {
 let rootElement;
 let gameInProgress = false;
 let waitingForExternalMove = false;
+let startPosition;
 
 export let size = 100;
 export let background = '#124589';
@@ -281,6 +282,7 @@ function updateWaitingForExternalMove() {
 }
 
 export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
+    startPosition = position;
     logic = new Chess(position);
     lastMove = undefined;
     promotionPending = false;
@@ -332,12 +334,20 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
     updateWaitingForExternalMove();
 }
 
-export function setPositionAndLastMove({
-    positionFen,
-    fromFileIndex, fromRankIndex,
-    toFileIndex, toRankIndex,
-}) {
+export function setPositionAndLastMove(parameters) {
     if (gameInProgress) return false;
+
+    if (parameters === undefined) {
+        logic = new Chess(startPosition);
+        lastMove = undefined;
+        return true;
+    }
+
+    const {
+        positionFen,
+        fromFileIndex, fromRankIndex,
+        toFileIndex, toRankIndex,
+    } = parameters;
 
     logic = new Chess(positionFen);
 
