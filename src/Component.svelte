@@ -336,7 +336,7 @@ export function setPositionAndLastMove({
     fromFileIndex, fromRankIndex,
     toFileIndex, toRankIndex,
 }) {
-    if (gameInProgress) return;
+    if (gameInProgress) return false;
 
     logic = new Chess(positionFen);
 
@@ -348,6 +348,8 @@ export function setPositionAndLastMove({
             file: toFileIndex, rank: toRankIndex,
         }
     };
+
+    return true;
 }
 
 export function stop() {
