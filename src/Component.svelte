@@ -695,7 +695,7 @@ function handleGameEndedStatus() {
         {#each rankIndexes as rank}
             <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</div>
             {#each fileIndexes as file}
-                <div class="cell" style="{((rank + file) % 2)  === 0 ? whiteCellsStyle : blackCellsStyle}">
+                <div class="cell" style="{((rank + file) % 2)  !== 0 ? whiteCellsStyle : blackCellsStyle}">
                     {#if isDnDOriginCell(dndPieceData, file, rank)}
                         <div 
                             style={
