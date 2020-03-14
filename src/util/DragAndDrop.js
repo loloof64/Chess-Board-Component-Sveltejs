@@ -112,11 +112,13 @@ export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
     }
 
     updateLogic();
-    updateAndEmitLastMove({startFile: originCell.file, startRank: originCell.rank,
-        endFile: file, endRank: rank, logicBeforeMove, logicAfterMove: logic});
     cancelDnd();
 
     handleGameEndedStatus();
+
+    updateAndEmitLastMove({startFile: originCell.file, startRank: originCell.rank,
+        endFile: file, endRank: rank, logicBeforeMove, logicAfterMove: logic});
+
     updateWaitingForExternalMove();
 }
 

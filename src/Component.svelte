@@ -319,6 +319,8 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
 
     // Update the logic variable => update the board !
     logic = logic;
+    
+    handleGameEndedStatus();
 
     updateAndEmitLastMove({
         startFile, startRank,
@@ -326,8 +328,7 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
         logicBeforeMove,
         logicAfterMove: logic,
     });
-    
-    handleGameEndedStatus();
+
     updateWaitingForExternalMove();
 }
 
@@ -385,13 +386,15 @@ function commitPromotionMove(type) {
     logic = logic;
 
     cancelDnd();
-    updateAndEmitLastMove({...pendingPromotionMove,
-     logicBeforeMove, logicAfterMove: logic});
 
     pendingPromotionMove = undefined;
     promotionPending = false;
 
     handleGameEndedStatus();
+
+    updateAndEmitLastMove({...pendingPromotionMove,
+     logicBeforeMove, logicAfterMove: logic});
+
     updateWaitingForExternalMove();
 }
 
