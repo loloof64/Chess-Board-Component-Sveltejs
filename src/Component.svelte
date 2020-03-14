@@ -283,7 +283,7 @@ function updateWaitingForExternalMove() {
 
 export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
     startPosition = position;
-    logic = new Chess(position);
+    logic = new Chess(startPosition);
     lastMove = undefined;
     promotionPending = false;
     cancelDnd();
@@ -336,8 +336,8 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
 
 export function setPositionAndLastMove(parameters) {
     if (gameInProgress) return false;
-
-    if (parameters === undefined) {
+    
+    if (JSON.stringify(parameters) === '{}') {
         logic = new Chess(startPosition);
         lastMove = undefined;
         return true;
