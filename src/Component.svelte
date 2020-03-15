@@ -336,8 +336,8 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
 
 export function setPositionAndLastMove(parameters) {
     if (gameInProgress) return false;
-    
-    if (JSON.stringify(parameters) === '{}') {
+
+    if (JSON.stringify(parameters) === '{}' || parameters === undefined) {
         logic = new Chess(startPosition);
         lastMove = undefined;
         return true;
