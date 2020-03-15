@@ -397,12 +397,15 @@ function commitPromotionMove(type) {
 
     cancelDnd();
 
+    const {startFile, startRank, endFile, endRank} = pendingPromotionMove;
+
     pendingPromotionMove = undefined;
     promotionPending = false;
 
     handleGameEndedStatus();
 
-    updateAndEmitLastMove({...pendingPromotionMove,
+    updateAndEmitLastMove({
+     startFile, startRank, endFile, endRank,
      logicBeforeMove, logicAfterMove: logic});
 
     updateWaitingForExternalMove();
