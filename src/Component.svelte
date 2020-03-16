@@ -376,6 +376,11 @@ export function gameIsInProgress() {
     return gameInProgress;
 }
 
+export function gamePgn() {
+    if (!logic) return '';
+    return logic.pgn({newline_char: '\n'});
+}
+
 function setPromotionPending({startFile, startRank, endFile, endRank}) {
     promotionPending = true;
     pendingPromotionMove = {
