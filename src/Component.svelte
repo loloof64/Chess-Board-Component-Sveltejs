@@ -30,8 +30,8 @@ export let move_highlight_color = 'CadetBlue';
 
 export let promotion_dialog_title = 'Select the promotion piece';
 
-export let white_player_human = 'true';
-export let black_player_human = 'true';
+export let white_player_human;
+export let black_player_human;
 
 import WhitePawn from './pieces/WhitePawn.svelte';
 import WhiteKnight from './pieces/WhiteKnight.svelte';
@@ -274,9 +274,11 @@ function cancelDnd() {
 
 function updateWaitingForExternalMove() {
     if (!gameInProgress) return;
+
     const whiteTurn = logic.turn() === 'w';
-    waitingForExternalMove = (whiteTurn && ![true, "true"].includes(white_player_human)) ||
-        (!whiteTurn && ![true, "true"].includes(black_player_human));
+    const playerHuman = (whiteTurn && [true, "true"].includes(white_player_human)) ||
+        (!whiteTurn && [true, "true"].includes(black_player_human));
+    waitingForExternalMove = !playerHuman;
 
     if (waitingForExternalMove) dispatch('waiting_manual_move');
 }
