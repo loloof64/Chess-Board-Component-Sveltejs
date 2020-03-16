@@ -290,6 +290,7 @@ export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR 
     promotionPending = false;
     cancelDnd();
     gameInProgress = true;
+    handleGameEndedStatus();
     updateWaitingForExternalMove();
 }
 
