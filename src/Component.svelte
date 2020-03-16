@@ -289,8 +289,8 @@ export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR 
     lastMove = undefined;
     promotionPending = false;
     cancelDnd();
-    updateWaitingForExternalMove();
     gameInProgress = true;
+    updateWaitingForExternalMove();
 }
 
 export function toggleSide() {
