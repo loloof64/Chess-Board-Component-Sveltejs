@@ -33,6 +33,9 @@ export let promotion_dialog_title = 'Select the promotion piece';
 export let white_player_human;
 export let black_player_human;
 
+export let coordinates_visible = true;
+export let last_move_visible = true;
+
 import WhitePawn from './pieces/WhitePawn.svelte';
 import WhiteKnight from './pieces/WhiteKnight.svelte';
 import WhiteBishop from './pieces/WhiteBishop.svelte';
@@ -705,12 +708,21 @@ function handleGameEndedStatus() {
     <div class="lowest-layer" style={lowestLayerStyle}>
         <div></div>
         {#each fileIndexes as file}
-            <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</div>
+            {#if ["true", true].includes(coordinates_visible)}
+                <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</div>
+            {:else}
+                <div></div>
+            {/if}
         {/each}
         <div></div>
 
         {#each rankIndexes as rank}
-            <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</div>
+            {#if ["true", true].includes(coordinates_visible)}
+                <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</div>
+            {:else}
+                <div></div>
+            {/if}
+
             {#each fileIndexes as file}
                 <div class="cell" style="{((rank + file) % 2)  !== 0 ? whiteCellsStyle : blackCellsStyle}">
                     {#if isDnDOriginCell(dndPieceData, file, rank)}
@@ -802,12 +814,21 @@ function handleGameEndedStatus() {
                     {/if}
                 </div>
             {/each}
-            <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</div>
+
+            {#if ["true", true].includes(coordinates_visible)}
+                <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</div>
+            {:else}
+                <div></div>
+            {/if}
         {/each}
 
         <div></div>
         {#each fileIndexes as file}
-            <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</div>
+            {#if ["true", true].includes(coordinates_visible)}
+                <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</div>
+            {:else}
+                <div></div>
+            {/if}
         {/each}
         <div class="player-turn {logic.turn() === 'w' ? 'white-turn' : 'black-turn'}"></div>
     </div>
@@ -842,12 +863,14 @@ function handleGameEndedStatus() {
         {/if}
     </div>
 
-    <div class="last-move-layer" style={dndLayerStyle}>
-        <div class="last-move-line" style={lastMoveBaseLineStyle}></div>
-        <div class="last-move-line" style={lastMoveArrow1Style}></div>
-        <div class="last-move-line" style={lastMoveArrow2Style}></div>
-        <div class="last-move-line" style={lastMovePointStyle}></div>
-    </div>
+    {#if [true, "true"].includes(last_move_visible)}
+        <div class="last-move-layer" style={dndLayerStyle}>
+            <div class="last-move-line" style={lastMoveBaseLineStyle}></div>
+            <div class="last-move-line" style={lastMoveArrow1Style}></div>
+            <div class="last-move-line" style={lastMoveArrow2Style}></div>
+            <div class="last-move-line" style={lastMovePointStyle}></div>
+        </div>
+    {/if}
 
     {#if promotionPending === true}
         <div class="promotion-overlay-layer" style={promotionOverlayStyle}>
