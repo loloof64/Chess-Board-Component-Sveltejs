@@ -61,7 +61,7 @@ Usage
 * setPositionAndLastMove({positionFen, fromFileIndex, fromRankIndex, toFileIndex, toRankIndex}) : you can set up the position and last move arrow, ** if the game is not in progress ** (otherwise won't have any effect). Returns true if the position and last move could be set, false otherwise. If no parameter given or wrong values, then it will clear last move arrow and sets the board to the position before the first move. Particularly useful for history managers.
 * stop(): we stop the game.
 * gameIsInProgress(): returns a boolean telling us if the game is in progress, or no game is running.
-* gamePgn() : returns the game pgn as a string.
+* gamePgn({whiteName, blackName}) : returns the game pgn as a string. Only sets white and black names if they are defined. Each missing field will be replaced by an empty string.
 
 ### Events
 

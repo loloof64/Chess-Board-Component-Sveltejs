@@ -376,8 +376,12 @@ export function gameIsInProgress() {
     return gameInProgress;
 }
 
-export function gamePgn() {
+export function gamePgn({whiteName, blackName}) {
     if (!logic) return '';
+    const white = whiteName || '';
+    const black = blackName || '';
+
+    logic.header('White', white, 'Black', black);
     return logic.pgn({newline_char: '\n'});
 }
 
