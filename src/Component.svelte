@@ -294,10 +294,6 @@ export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR 
     updateWaitingForExternalMove();
 }
 
-export function toggleSide() {
-    reversed = !reversed;
-}
-
 export function isWhiteTurn() {
     return logic.turn() === 'w';
 }
