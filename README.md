@@ -51,6 +51,8 @@ Usage
 
 (1) External player means that, instead of playing its move with interaction on the board, call the method `playMove` in order to commit its move. A simple use case would be to let an engine play.
 
+The component can also be given additional style, through the style attribute: it must be a string.
+
 
 ### Methods
 
