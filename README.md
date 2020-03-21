@@ -48,10 +48,10 @@ Usage
 | move_highlight_color   | Color of the last move highlight arrow                         | string  | CadetBlue                  |
 | coordinates_visible    | True if the coordinates should be visible, false otherwise     | boolean | true                       |
 | last_move_visible      | True if the last move arrow should be visible, false otherwise | boolean | true                       |
+| left                   | Left position, in px (absolute)                                | number  | 0                          |
+| top                    | Top position, in px (absolute)                                 | number  | 0                          |
 
 (1) External player means that, instead of playing its move with interaction on the board, call the method `playMove` in order to commit its move. A simple use case would be to let an engine play.
-
-The component can also be given additional style, through the style attribute: it must be a string.
 
 
 ### Methods

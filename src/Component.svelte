@@ -18,9 +18,8 @@ export let size = 100;
 export let background = '#124589';
 export let reversed = false;
 
-export let style;
-
-const rootSuppStyle = style || '';
+export let left = 0;
+export let top = 0;
 
 export let white_cell_color = 'GoldenRod';
 export let black_cell_color = 'brown';
@@ -126,7 +125,8 @@ $: rootStyle = `
     width: ${size}px;
     height: ${size}px;
     background-color: ${background};
-    ${rootSuppStyle}
+    left: ${left}px;
+    top: ${top}px;
 `;
 
 $: gridTemplate = `${halfCellsSize}px repeat(8, ${cellsSize}px) ${halfCellsSize}px / ${halfCellsSize}px repeat(8, ${cellsSize}px) ${halfCellsSize}px`;
