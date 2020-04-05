@@ -288,7 +288,7 @@ function updateWaitingForExternalMove() {
         (!whiteTurn && [true, "true"].includes(black_player_human));
     waitingForExternalMove = !playerHuman;
 
-    if (waitingForExternalMove) dispatch('waiting_manual_move');
+    if (waitingForExternalMove) dispatch('waiting-manual-move');
 }
 
 export function newGame(position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
@@ -572,7 +572,7 @@ function updateAndEmitLastMove({logicBeforeMove, logicAfterMove, startFile, star
         toRankIndex: endRank,
     };
 
-    dispatch('move_done', {moveObject: lastMoveEventPayload});
+    dispatch('move-done', {moveObject: lastMoveEventPayload});
 }
 
 function convertMoveSanToMoveFan({moveSan, whiteTurn}) {
@@ -599,18 +599,18 @@ function handleGameEndedStatus() {
     else if (logic.in_threefold_repetition()) {
         cancelDnd();
         gameInProgress = false;
-        dispatch('perpetual_draw');
+        dispatch('perpetual-draw');
     }
     else if (logic.in_draw()) {
         if (logic.insufficient_material()) {
             cancelDnd();
             gameInProgress = false;
-            dispatch('missing_material_draw');
+            dispatch('missing-material-draw');
         }
         else {
             cancelDnd();
             gameInProgress = false;
-            dispatch('fifty_moves_draw');
+            dispatch('fifty-moves-draw');
         }
     }
 }
