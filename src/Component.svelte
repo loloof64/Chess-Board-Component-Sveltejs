@@ -314,11 +314,14 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
     if (!gameInProgress) return false;
     if (!waitingForExternalMove) return false;
 
-    const moveObject = {
+    const moveObject = promotion ? {
         from: cellAlgebraic(startFile, startRank),
         to: cellAlgebraic(endFile, endRank),
         promotion,
-    }
+    } : {
+        from: cellAlgebraic(startFile, startRank),
+        to: cellAlgebraic(endFile, endRank),
+    };
 
     const logicBeforeMove = new Chess(logic.fen());
 
