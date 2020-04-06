@@ -284,8 +284,8 @@ function updateWaitingForExternalMove() {
     if (!gameInProgress) return;
 
     const whiteTurn = logic.turn() === 'w';
-    const playerHuman = (whiteTurn && [true, "true"].includes(white_player_human)) ||
-        (!whiteTurn && [true, "true"].includes(black_player_human));
+    const playerHuman = ((whiteTurn === false) && [true, "true"].includes(white_player_human)) ||
+        ((whiteTurn === false) && [true, "true"].includes(black_player_human));
     waitingForExternalMove = !playerHuman;
 
     if (waitingForExternalMove) dispatch('waiting-manual-move');
