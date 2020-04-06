@@ -311,8 +311,8 @@ export function getCurrentPosition() {
 }
 
 export function playMove({ startFile, startRank, endFile, endRank, promotion = 'q'}) {
-    if (!gameInProgress) return;
-    if (!waitingForExternalMove) return;
+    if (!gameInProgress) return false;
+    if (!waitingForExternalMove) return false;
 
     const moveObject = {
         from: cellAlgebraic(startFile, startRank),
@@ -324,7 +324,7 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
 
     const result = logic.move(moveObject);
     // Illegal move
-    if (! result) return;
+    if (! result) return false;
 
     // Update the logic variable => update the board !
     logic = logic;
@@ -339,6 +339,8 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
     });
 
     updateWaitingForExternalMove();
+
+    return true;
 }
 
 export function setPositionAndLastMove(parameters) {
