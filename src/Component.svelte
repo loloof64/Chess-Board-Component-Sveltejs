@@ -344,6 +344,16 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
     return true;
 }
 
+function algebraicCoordinatesToObject(coordsStr) {
+    const asciiLowerA = 97;
+    const ascii0 = 48;
+
+    const file = coordsStr.charCodeAt(0) - asciiLowerA;
+    const rank = coordsStr.charCodeAt(1) - ascii0;
+
+    return [file, rank];
+}
+
 export function playMoveSan(moveSan) {
     if (!gameInProgress) return false;
     if (!waitingForExternalMove) return false;
@@ -354,6 +364,12 @@ export function playMoveSan(moveSan) {
 
     // Illegal move
     if (! result) return false;
+
+    const from = result.from;
+    const to = result.to;
+
+    const [startFile, startRank] = algebraicCoordinatesToObject(from);
+    const [endFile, endRank] = algebraicCoordinatesToObject(to);
 
     // Update the logic variable => update the board !
     logic = logic;
