@@ -344,6 +344,34 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
     return true;
 }
 
+export function playMoveSan(moveSan) {
+    if (!gameInProgress) return false;
+    if (!waitingForExternalMove) return false;
+
+    const logicBeforeMove = new Chess(logic.fen());
+
+    const result = logic.move(moveSan);
+
+    // Illegal move
+    if (! result) return false;
+
+    // Update the logic variable => update the board !
+    logic = logic;
+    
+    handleGameEndedStatus();
+
+    updateAndEmitLastMove({
+        startFile, startRank,
+        endFile, endRank,
+        logicBeforeMove,
+        logicAfterMove: logic,
+    });
+
+    updateWaitingForExternalMove();
+
+    return true;
+}
+
 export function setPositionAndLastMove(parameters) {
     if (gameInProgress) return false;
 
