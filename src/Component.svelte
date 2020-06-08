@@ -346,10 +346,10 @@ export function playMove({ startFile, startRank, endFile, endRank, promotion = '
 
 function algebraicCoordinatesToObject(coordsStr) {
     const asciiLowerA = 97;
-    const ascii0 = 48;
+    const ascii1 = 49;
 
     const file = coordsStr.charCodeAt(0) - asciiLowerA;
-    const rank = coordsStr.charCodeAt(1) - ascii0;
+    const rank = coordsStr.charCodeAt(1) - ascii1;
 
     return [file, rank];
 }
