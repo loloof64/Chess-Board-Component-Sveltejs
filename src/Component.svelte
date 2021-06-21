@@ -784,74 +784,74 @@ function handleGameEndedStatus() {
                                 
                         ></div>
                     {:else if isWhitePawnAtCell(logic, file, rank)}
-                        <chess-white-pawn size={cellsSize} 
+                        <loloof64-white-pawn size={cellsSize} 
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle  :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isWhiteKnightAtCell(logic, file, rank)}
-                        <chess-white-knight size={cellsSize}
+                        <loloof64-white-knight size={cellsSize}
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                          />
                     {:else if isWhiteBishopAtCell(logic, file, rank)}
-                        <chess-white-bishop size={cellsSize}
+                        <loloof64-white-bishop size={cellsSize}
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                          />
                     {:else if isWhiteRookAtCell(logic, file, rank)}
-                        <chess-white-rook size={cellsSize}
+                        <loloof64-white-rook size={cellsSize}
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                          />
                     {:else if isWhiteQueenAtCell(logic, file, rank)}
-                        <chess-white-queen size={cellsSize} 
+                        <loloof64-white-queen size={cellsSize} 
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isWhiteKingAtCell(logic, file, rank)}
-                        <chess-white-king size={cellsSize}
+                        <loloof64-white-king size={cellsSize}
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                          />
 
                     {:else if isBlackPawnAtCell(logic, file, rank)}
-                        <chess-black-pawn size={cellsSize} 
+                        <loloof64-black-pawn size={cellsSize} 
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isBlackKnightAtCell(logic, file, rank)}
-                        <chess-black-knight size={cellsSize} 
+                        <loloof64-black-knight size={cellsSize} 
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isBlackBishopAtCell(logic, file, rank)}
-                        <chess-black-bishop size={cellsSize} 
+                        <loloof64-black-bishop size={cellsSize} 
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isBlackRookAtCell(logic, file, rank)}
-                        <chess-black-rook size={cellsSize} 
+                        <loloof64-black-rook size={cellsSize} 
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isBlackQueenAtCell(logic, file, rank)}
-                        <chess-black-queen size={cellsSize} 
+                        <loloof64-black-queen size={cellsSize} 
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
                         />
                     {:else if isBlackKingAtCell(logic, file, rank)}
-                        <chess-black-king size={cellsSize} 
+                        <loloof64-black-king size={cellsSize} 
                             style={
                                 targetFile === file && targetRank === rank ? dndTargetCellStyle :
                                 (targetFile === file || targetRank === rank) ? dndCrossCellStyle : ''}
@@ -886,29 +886,29 @@ function handleGameEndedStatus() {
 
     <div class="dnd-layer">
         {#if isWhitePawnDragged(dndPieceData)}
-            <chess-white-pawn size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-white-pawn size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isWhiteKnightDragged(dndPieceData)}
-            <chess-white-knight size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-white-knight size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isWhiteBishopDragged(dndPieceData)}
-            <chess-white-bishop size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-white-bishop size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isWhiteRookDragged(dndPieceData)}
-            <chess-white-rook size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-white-rook size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isWhiteQueenDragged(dndPieceData)}
-            <chess-white-queen size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-white-queen size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isWhiteKingDragged(dndPieceData)}
-            <chess-white-king size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-white-king size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isBlackPawnDragged(dndPieceData)}
-            <chess-black-pawn size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-black-pawn size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isBlackKnightDragged(dndPieceData)}
-            <chess-black-knight size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-black-knight size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isBlackBishopDragged(dndPieceData)}
-            <chess-black-bishop size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-black-bishop size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isBlackRookDragged(dndPieceData)}
-            <chess-black-rook size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-black-rook size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isBlackQueenDragged(dndPieceData)}
-            <chess-black-queen size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-black-queen size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else if isBlackKingDragged(dndPieceData)}
-            <chess-black-king size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
+            <loloof64-black-king size={cellsSize} style={dndPieceStyle} class="dndPiece"/>
         {:else}
             <div></div>
         {/if}
@@ -929,36 +929,36 @@ function handleGameEndedStatus() {
                 <div class="promotion-title" style={promotionTitleStyle}>{promotion_dialog_title}</div>
                 <div class="promotion-buttons">
                     {#if logic.turn() === 'w'}
-                        <chess-white-queen 
+                        <loloof64-white-queen 
                             style={promotionButtonStyle} size={cellsSize}
                             on:click={() => commitPromotionMove('q')}
                         />
-                        <chess-white-rook 
+                        <loloof64-white-rook 
                             style={promotionButtonStyle} size={cellsSize}
                             on:click={() => commitPromotionMove('r')}
                         />
-                        <chess-white-bishop 
+                        <loloof64-white-bishop 
                             style={promotionButtonStyle} size={cellsSize}
                             on:click={() => commitPromotionMove('b')} 
                         />
-                        <chess-white-knight 
+                        <loloof64-white-knight 
                             style={promotionButtonStyle} size={cellsSize}
                             on:click={() => commitPromotionMove('n')} 
                         />
                     {:else}
-                        <chess-black-queen 
+                        <loloof64-black-queen 
                             style={promotionButtonStyle} size={cellsSize}
                             on:click={() => commitPromotionMove('q')}
                         />
-                        <chess-black-rook 
+                        <loloof64-black-rook 
                             style={promotionButtonStyle} size={cellsSize}
                             on:click={() => commitPromotionMove('r')} 
                         />
-                        <chess-black-bishop 
+                        <loloof64-black-bishop 
                             style={promotionButtonStyle} size={cellsSize}
                             on:click={() => commitPromotionMove('b')} 
                         />
-                        <chess-black-knight 
+                        <loloof64-black-knight 
                             style={promotionButtonStyle} size={cellsSize}
                             on:click={() => commitPromotionMove('n')}
                         />
