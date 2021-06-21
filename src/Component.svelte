@@ -742,7 +742,6 @@ function handleGameEndedStatus() {
 }
 </style>
 
-<svelte:options tag="loloof64-chessboard" />
 <div class="root" bind:this={rootElement} style={rootStyle}
      on:mousedown|preventDefault={(event) => handleMouseDown({event, cellsSize, reversed, rootElement, 
         logic, dragAndDropInProgress, setupDnd, gameInProgress, waitingForExternalMove})}
