@@ -31,25 +31,20 @@ Usage
 
 ### Attributes
 
-| Name                   | Purpose                                                        | Type    | Default                    |
+| Name                   | Purpose                               <svelte:options tag="chess-white-king"/>
 |------------------------|----------------------------------------------------------------|---------|----------------------------|
 | size                   | Common size (width/height) of the board in pixels              | number  | 100.0                      |
 | background             | Background color of the board outside zone                     | string  | #124589                    |
 | coordinatesColor       | Color of the coordinates around the board                      | string  | DarkOrange                 |
 | whiteCellColor         | Background color of the white cells of the board               | string  | GoldenRod                  |
-| blackCellColor         | Background color of the black cells of the board               | string  | brown                      |
+| blackCellColor         | Background color of the black cells of<svelte:options tag="chess-white-king"/>
 | reversed               | Whether black side is on top or not                            | boolean | false                      |
 | origin_cell_color      | Color of the origin cell of the Drag and Drop                  | string  | crimson                    |
 | target_cell_color      | Color of the current target cell of the Drag and Drop          | string  | ForestGreen                |
-| dnd_cross_color        | Color of the Drag and Drop cross indicator                     | string  | DimGrey                    |
-| promotion_dialog_title | Title of the promotion selection dialog                        | string  | Select the promotion piece |
-| white_player_human     | True if the white player is human, false for external (1)      | boolean | true                       |
-| black_player_human     | True if the black player is human, false for external (1)      | boolean | true                       |
+| dnd_cross_color        | Color of the Drag and Drop cross indicator                     | string  | DimGrey                    |<svelte:options tag="chess-white-king"/>
 | move_highlight_color   | Color of the last move highlight arrow                         | string  | CadetBlue                  |
 | coordinates_visible    | True if the coordinates should be visible, false otherwise     | boolean | true                       |
 | last_move_visible      | True if the last move arrow should be visible, false otherwise | boolean | true                       |
-| left                   | Left position, in px (absolute)                                | number  | 0                          |
-| top                    | Top position, in px (absolute)                                 | number  | 0                          |
 
 (1) External player means that, instead of playing its move with interaction on the board, call the method `playMove` in order to commit its move. A simple use case would be to let an engine play.
 
@@ -81,9 +76,9 @@ When chaining methods/events, you may experience some update issues. Indeed, oft
 
 ## Developers
 
-You can build with the command (in the terminal) `$ npm run build` from the root of the project. Result will be in the `dist` folder.
+You can build with the command (in the terminal) `$ yarn build` from the root of the project. Result will be in the `dist` folder.
 
-But don't forget first to install all dependencies, with NodeJS : `npm install`.
+But don't forget first to install all dependencies, with NodeJS : `yarn`.
 
 ## Credits
 
