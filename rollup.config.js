@@ -20,7 +20,9 @@ export default {
 		commonjs({namedExports: {
 			'chess': ['Chess'],
 		}}),
-		svelte({customElement: true}),
+		svelte({compilerOptions: {
+			customElement: true,
+		}}),
 		resolve()
 	]
 };

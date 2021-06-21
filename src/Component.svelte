@@ -657,6 +657,7 @@ function handleGameEndedStatus() {
     }
 }
 </script>
+<svelte:options tag="loloof64-chessboard"/>
 
 <style>
 .root {
