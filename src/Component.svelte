@@ -627,34 +627,32 @@ function convertMoveSanToMoveFan({moveSan, whiteTurn}) {
     return moveSan;
 };
 
-const CALLBACK_TIMEOUT_MS = 50;
-
 function handleGameEndedStatus() {
     if (logic.in_checkmate()) {
         cancelDnd();
         gameInProgress = false;
-        setTimeout(() => dispatch('checkmate', {whiteTurnBeforeMove: logic.turn() !== 'w'}), CALLBACK_TIMEOUT_MS);
+        dispatch('checkmate', {whiteTurnBeforeMove: logic.turn() !== 'w'});
     }
     else if (logic.in_stalemate()) {
         cancelDnd();
         gameInProgress = false;
-        setTimeout(() => dispatch('stalemate'), CALLBACK_TIMEOUT_MS);
+        dispatch('stalemate');
     }
     else if (logic.in_threefold_repetition()) {
         cancelDnd();
         gameInProgress = false;
-        setTimeout(() => dispatch('perpetual-draw'), CALLBACK_TIMEOUT_MS);
+        dispatch('perpetual-draw');
     }
     else if (logic.in_draw()) {
         if (logic.insufficient_material()) {
             cancelDnd();
             gameInProgress = false;
-            setTimeout(() => dispatch('missing-material-draw'), CALLBACK_TIMEOUT_MS);
+            dispatch('missing-material-draw');
         }
         else {
             cancelDnd();
             gameInProgress = false;
-            setTimeout(() => dispatch('fifty-moves-draw'), CALLBACK_TIMEOUT_MS);
+            dispatch('fifty-moves-draw');
         }
     }
 }
