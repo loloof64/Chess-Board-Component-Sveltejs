@@ -31,6 +31,12 @@ export function handleMouseDown({event, cellsSize, reversed, rootElement,
     const piece = getPieceAt(logic, file, rank);
     if ([null, undefined].includes(piece)) return;
 
+    const isWhiteTurn = logic.turn() === 'w';
+    const isWhitePiece = piece.color === 'w';
+    const isNotPieceOfCurrentPlayerInTurn = isWhiteTurn !== isWhitePiece;
+
+    if (isNotPieceOfCurrentPlayerInTurn) return;
+
     setupDnd({x, y, file, rank, piece});
 }
 
