@@ -667,22 +667,18 @@ function handleGameEndedStatus() {
 .lowest-layer {
     position: absolute;
     display: grid;
-    z-index: 2;
 }
 
 .last-move-layer {
     position: absolute;
-    z-index: 3;
 }
 
 .dnd-layer {
     position: absolute;
-    z-index: 4;
 }
 
 .promotion-overlay-layer {
     position: absolute;
-    z-index: 5;
     opacity: 0.8;
     display: flex;
     justify-content: center;
