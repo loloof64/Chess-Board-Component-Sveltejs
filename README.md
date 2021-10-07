@@ -35,9 +35,9 @@ Usage
 |------------------------|----------------------------------------------------------------|---------|----------------------------|
 | size                   | Common size (width/height) of the board in pixels              | number  | 100.0                      |
 | background             | Background color of the board outside zone                     | string  | #124589                    |
-| coordinatesColor       | Color of the coordinates around the board                      | string  | DarkOrange                 |
-| whiteCellColor         | Background color of the white cells of the board               | string  | GoldenRod                  |
-| blackCellColor         | Background color of the black cells of the board               | string  | brown                      |
+| coordinatesColor       | Color of the coordinates around the board                      | string  | yellow                 |
+| whiteCellColor         | Background color of the white cells of the board               | string  | navajowhite                  |
+| blackCellColor         | Background color of the black cells of the board               | string  | peru                      |
 | reversed               | Whether black side is on top or not                            | boolean | false                      |
 | origin_cell_color      | Color of the origin cell of the Drag and Drop                  | string  | crimson                    |
 | target_cell_color      | Color of the current target cell of the Drag and Drop          | string  | ForestGreen                |

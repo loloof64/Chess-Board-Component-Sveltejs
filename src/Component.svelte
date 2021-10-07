@@ -18,9 +18,9 @@ export let size = 100;
 export let background = '#124589';
 export let reversed = false;
 
-export let white_cell_color = 'GoldenRod';
-export let black_cell_color = 'brown';
-export let coordinates_color = 'DarkOrange';
+export let white_cell_color = 'navajowhite';
+export let black_cell_color = 'peru';
+export let coordinates_color = 'yellow';
 
 export let origin_cell_color = 'crimson';
 export let target_cell_color = 'ForestGreen';
