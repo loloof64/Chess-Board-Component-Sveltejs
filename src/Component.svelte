@@ -760,7 +760,7 @@ function handleGameEndedStatus() {
         <div></div>
         {#each fileIndexes as file}
             {#if ["true", true].includes(coordinates_visible)}
-                <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</div>
+                <p class="coordinate"  style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</p>
             {:else}
                 <div></div>
             {/if}
@@ -769,7 +769,7 @@ function handleGameEndedStatus() {
 
         {#each rankIndexes as rank}
             {#if ["true", true].includes(coordinates_visible)}
-                <div class="coordinate"  style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</div>
+                <p class="coordinate"  style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</p>
             {:else}
                 <div></div>
             {/if}
@@ -867,7 +867,7 @@ function handleGameEndedStatus() {
             {/each}
 
             {#if ["true", true].includes(coordinates_visible)}
-                <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</div>
+                <p class="coordinate" style={coordinateStyle}>{String.fromCharCode('1'.charCodeAt(0) + rank)}</p>
             {:else}
                 <div></div>
             {/if}
@@ -876,7 +876,7 @@ function handleGameEndedStatus() {
         <div></div>
         {#each fileIndexes as file}
             {#if ["true", true].includes(coordinates_visible)}
-                <div class="coordinate" style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</div>
+                <p class="coordinate" style={coordinateStyle}>{String.fromCharCode('A'.charCodeAt(0) + file)}</p>
             {:else}
                 <div></div>
             {/if}
