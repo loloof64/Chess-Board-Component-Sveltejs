@@ -38,7 +38,21 @@
 
   export let coordinates_visible = true;
   export let last_move_visible = true;
-  
+
+  import WhitePawn from "./pieces/WhitePawn.svelte";
+  import WhiteKnight from "./pieces/WhiteKnight.svelte";
+  import WhiteBishop from "./pieces/WhiteBishop.svelte";
+  import WhiteRook from "./pieces/WhiteRook.svelte";
+  import WhiteQueen from "./pieces/WhiteQueen.svelte";
+  import WhiteKing from "./pieces/WhiteKing.svelte";
+
+  import BlackPawn from "./pieces/BlackPawn.svelte";
+  import BlackKnight from "./pieces/BlackKnight.svelte";
+  import BlackBishop from "./pieces/BlackBishop.svelte";
+  import BlackRook from "./pieces/BlackRook.svelte";
+  import BlackQueen from "./pieces/BlackQueen.svelte";
+  import BlackKing from "./pieces/BlackKing.svelte";
+
   import {
     cellAlgebraic,
     isWhitePawnAtCell,
@@ -801,137 +815,113 @@
                 : dndTargetCellStyle}
             />
           {:else if isWhitePawnAtCell(logic, file, rank)}
-            <svg
+            <loloof64-white-pawn
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_plt45.svg" />
-              </svg>
+            />
           {:else if isWhiteKnightAtCell(logic, file, rank)}
-            <svg
+            <loloof64-white-knight
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_nlt45.svg" />
-              </svg>
+            />
           {:else if isWhiteBishopAtCell(logic, file, rank)}
-            <svg
+            <loloof64-white-bishop
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_blt45.svg" />
-              </svg>
+            />
           {:else if isWhiteRookAtCell(logic, file, rank)}
-            <svg
+            <loloof64-white-rook
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_rlt45.svg" />
-              </svg>
+            />
           {:else if isWhiteQueenAtCell(logic, file, rank)}
-            <svg
+            <loloof64-white-queen
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_qlt45.svg" />
-              </svg>
+            />
           {:else if isWhiteKingAtCell(logic, file, rank)}
-            <svg
+            <loloof64-white-king
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_klt45.svg" />
-              </svg>
+            />
           {:else if isBlackPawnAtCell(logic, file, rank)}
-            <svg
+            <loloof64-black-pawn
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_pdt45.svg" />
-              </svg>
+            />
           {:else if isBlackKnightAtCell(logic, file, rank)}
-            <svg
+            <loloof64-black-knight
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_ndt45.svg" />
-              </svg>
+            />
           {:else if isBlackBishopAtCell(logic, file, rank)}
-            <svg
+            <loloof64-black-bishop
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_bdt45.svg" />
-              </svg>
+            />
           {:else if isBlackRookAtCell(logic, file, rank)}
-            <svg
+            <loloof64-black-rook
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_rdt45.svg" />
-              </svg>
+            />
           {:else if isBlackQueenAtCell(logic, file, rank)}
-            <svg
+            <loloof64-black-queen
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_qdt45.svg" />
-              </svg>
+            />
           {:else if isBlackKingAtCell(logic, file, rank)}
-            <svg
+            <loloof64-black-king
               size={cellsSize}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
                 : ""}
-            >
-            <use href="./pieces/Chess_kdt45.svg" />
-              </svg>
+            />
           {:else}
             <div
               style={targetFile === file && targetRank === rank
@@ -972,101 +962,77 @@
 
   <div class="dnd-layer">
     {#if isWhitePawnDragged(dndPieceData)}
-      <svg
+      <loloof64-white-pawn
         size={cellsSize}
         style={dndPieceStyle}
         class="dndPiece"
-      >
-        <use href="./pieces/Chess_plt45.svg" />
-      </svg>
+      />
     {:else if isWhiteKnightDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_nlt45.svg" />
-  </svg>
+      <loloof64-white-knight
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else if isWhiteBishopDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_blt45.svg" />
-  </svg>
+      <loloof64-white-bishop
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else if isWhiteRookDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_rlt45.svg" />
-  </svg>
+      <loloof64-white-rook
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else if isWhiteQueenDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_qlt45.svg" />
-  </svg>
+      <loloof64-white-queen
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else if isWhiteKingDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_klt45.svg" />
-  </svg>
+      <loloof64-white-king
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else if isBlackPawnDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_pdt45.svg" />
-  </svg>
+      <loloof64-black-pawn
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else if isBlackKnightDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_ndt45.svg" />
-  </svg>
+      <loloof64-black-knight
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else if isBlackBishopDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_bdt45.svg" />
-  </svg>
+      <loloof64-black-bishop
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else if isBlackRookDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_rdt45.svg" />
-  </svg>
+      <loloof64-black-rook
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else if isBlackQueenDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_qdt45.svg" />
-  </svg>
+      <loloof64-black-queen
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else if isBlackKingDragged(dndPieceData)}
-    <svg
-    size={cellsSize}
-    style={dndPieceStyle}
-    class="dndPiece"
-  >
-    <use href="./pieces/Chess_kdt45.svg" />
-  </svg>
+      <loloof64-black-king
+        size={cellsSize}
+        style={dndPieceStyle}
+        class="dndPiece"
+      />
     {:else}
       <div />
     {/if}
@@ -1089,71 +1055,47 @@
         </div>
         <div class="promotion-buttons">
           {#if logic.turn() === "w"}
-            <svg
-              width={cellsSize}
-              height={cellsSize}
+            <loloof64-white-queen
               style={promotionButtonStyle}
+              size={cellsSize}
               on:click={() => commitPromotionMove("q")}
-            >
-              <use href={"./pieces/Chess_qlt45.svg"} />
-            </svg>
-            <svg
-              width={cellsSize}
-              height={cellsSize}
+            />
+            <loloof64-white-rook
               style={promotionButtonStyle}
+              size={cellsSize}
               on:click={() => commitPromotionMove("r")}
-            >
-              <use href={"./pieces/Chess_rlt45.svg"} />
-            </svg>
-            <svg
-              width={cellsSize}
-              height={cellsSize}
+            />
+            <loloof64-white-bishop
               style={promotionButtonStyle}
+              size={cellsSize}
               on:click={() => commitPromotionMove("b")}
-            >
-              <use href={"./pieces/Chess_blt45.svg"} />
-            </svg>
-            <svg
-              width={cellsSize}
-              height={cellsSize}
+            />
+            <loloof64-white-knight
               style={promotionButtonStyle}
+              size={cellsSize}
               on:click={() => commitPromotionMove("n")}
-            >
-              <use href={"./pieces/Chess_nlt45.svg"} />
-            </svg>
+            />
           {:else}
-            <svg
-              width={cellsSize}
-              height={cellsSize}
+            <loloof64-black-queen
               style={promotionButtonStyle}
+              size={cellsSize}
               on:click={() => commitPromotionMove("q")}
-            >
-              <use href={"./pieces/Chess_qdt45.svg"} />
-            </svg>
-            <svg
-              width={cellsSize}
-              height={cellsSize}
+            />
+            <loloof64-black-rook
               style={promotionButtonStyle}
+              size={cellsSize}
               on:click={() => commitPromotionMove("r")}
-            >
-              <use href={"./pieces/Chess_rdt45.svg"} />
-            </svg>
-            <svg
-              width={cellsSize}
-              height={cellsSize}
+            />
+            <loloof64-black-bishop
               style={promotionButtonStyle}
+              size={cellsSize}
               on:click={() => commitPromotionMove("b")}
-            >
-              <use href={"./pieces/Chess_bdt45.svg"} />
-            </svg>
-            <svg
-              width={cellsSize}
-              height={cellsSize}
+            />
+            <loloof64-black-knight
               style={promotionButtonStyle}
+              size={cellsSize}
               on:click={() => commitPromotionMove("n")}
-            >
-              <use href={"./pieces/Chess_ndt45.svg"} />
-            </svg>
+            />
           {/if}
         </div>
       </div>
@@ -1231,11 +1173,11 @@
   }
 
   .player-turn-cell {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 90%;
-    height: 90%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 90%;
+      height: 90%;
   }
 
   .player-turn {
