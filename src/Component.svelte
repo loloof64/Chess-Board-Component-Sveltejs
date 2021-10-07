@@ -662,6 +662,7 @@ function handleGameEndedStatus() {
 <style>
 .root {
     position: relative;
+    display: inline-block;
 }
 
 .lowest-layer {
@@ -716,6 +717,9 @@ function handleGameEndedStatus() {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
 
 .dndPiece {
