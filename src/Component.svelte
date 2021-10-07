@@ -729,7 +729,7 @@ function handleGameEndedStatus() {
 }
 
 .player-turn {
-    border-radius: 46%;
+    border-radius: 40%;
 }
 
 .white-turn {
