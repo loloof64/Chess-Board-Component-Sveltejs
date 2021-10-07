@@ -38,7 +38,7 @@
 
   export let coordinates_visible = true;
   export let last_move_visible = true;
-  
+
   import {
     cellAlgebraic,
     isWhitePawnAtCell,
@@ -802,7 +802,7 @@
             />
           {:else if isWhitePawnAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -813,7 +813,7 @@
               </svg>
           {:else if isWhiteKnightAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -824,7 +824,7 @@
               </svg>
           {:else if isWhiteBishopAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -835,7 +835,7 @@
               </svg>
           {:else if isWhiteRookAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -846,7 +846,7 @@
               </svg>
           {:else if isWhiteQueenAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -857,7 +857,7 @@
               </svg>
           {:else if isWhiteKingAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -868,7 +868,7 @@
               </svg>
           {:else if isBlackPawnAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -879,7 +879,7 @@
               </svg>
           {:else if isBlackKnightAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -890,7 +890,7 @@
               </svg>
           {:else if isBlackBishopAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -901,7 +901,7 @@
               </svg>
           {:else if isBlackRookAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -912,7 +912,7 @@
               </svg>
           {:else if isBlackQueenAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -923,7 +923,7 @@
               </svg>
           {:else if isBlackKingAtCell(logic, file, rank)}
             <svg
-              size={cellsSize}
+              width={cellsSize + 'px'} height={cellsSize + 'px'}
               style={targetFile === file && targetRank === rank
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
@@ -973,7 +973,7 @@
   <div class="dnd-layer">
     {#if isWhitePawnDragged(dndPieceData)}
       <svg
-        size={cellsSize}
+        width={cellsSize + 'px'} height={cellsSize + 'px'}
         style={dndPieceStyle}
         class="dndPiece"
       >
@@ -981,7 +981,7 @@
       </svg>
     {:else if isWhiteKnightDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'} height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -989,7 +989,7 @@
   </svg>
     {:else if isWhiteBishopDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'}  height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -997,7 +997,7 @@
   </svg>
     {:else if isWhiteRookDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'}  height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -1005,7 +1005,7 @@
   </svg>
     {:else if isWhiteQueenDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'} height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -1013,7 +1013,7 @@
   </svg>
     {:else if isWhiteKingDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'} height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -1021,7 +1021,7 @@
   </svg>
     {:else if isBlackPawnDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'} height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -1029,7 +1029,7 @@
   </svg>
     {:else if isBlackKnightDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'} height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -1037,7 +1037,7 @@
   </svg>
     {:else if isBlackBishopDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'} height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -1045,7 +1045,7 @@
   </svg>
     {:else if isBlackRookDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'} height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -1053,7 +1053,7 @@
   </svg>
     {:else if isBlackQueenDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'} height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -1061,7 +1061,7 @@
   </svg>
     {:else if isBlackKingDragged(dndPieceData)}
     <svg
-    size={cellsSize}
+    width={cellsSize + 'px'} height={cellsSize + 'px'}
     style={dndPieceStyle}
     class="dndPiece"
   >
@@ -1090,32 +1090,32 @@
         <div class="promotion-buttons">
           {#if logic.turn() === "w"}
             <svg
-              width={cellsSize}
-              height={cellsSize}
+              width={cellsSize + 'px'}
+              height={cellsSize + 'px'}
               style={promotionButtonStyle}
               on:click={() => commitPromotionMove("q")}
             >
               <use href={"./pieces/Chess_qlt45.svg"} />
             </svg>
             <svg
-              width={cellsSize}
-              height={cellsSize}
+              width={cellsSize + 'px'}
+              height={cellsSize + 'px'}
               style={promotionButtonStyle}
               on:click={() => commitPromotionMove("r")}
             >
               <use href={"./pieces/Chess_rlt45.svg"} />
             </svg>
             <svg
-              width={cellsSize}
-              height={cellsSize}
+              width={cellsSize + 'px'}
+              height={cellsSize + 'px'}
               style={promotionButtonStyle}
               on:click={() => commitPromotionMove("b")}
             >
               <use href={"./pieces/Chess_blt45.svg"} />
             </svg>
             <svg
-              width={cellsSize}
-              height={cellsSize}
+              width={cellsSize + 'px'}
+              height={cellsSize + 'px'}
               style={promotionButtonStyle}
               on:click={() => commitPromotionMove("n")}
             >
@@ -1123,32 +1123,32 @@
             </svg>
           {:else}
             <svg
-              width={cellsSize}
-              height={cellsSize}
+              width={cellsSize + 'px'}
+              height={cellsSize + 'px'}
               style={promotionButtonStyle}
               on:click={() => commitPromotionMove("q")}
             >
               <use href={"./pieces/Chess_qdt45.svg"} />
             </svg>
             <svg
-              width={cellsSize}
-              height={cellsSize}
+              width={cellsSize + 'px'}
+              height={cellsSize + 'px'}
               style={promotionButtonStyle}
               on:click={() => commitPromotionMove("r")}
             >
               <use href={"./pieces/Chess_rdt45.svg"} />
             </svg>
             <svg
-              width={cellsSize}
-              height={cellsSize}
+              width={cellsSize + 'px'}
+              height={cellsSize + 'px'}
               style={promotionButtonStyle}
               on:click={() => commitPromotionMove("b")}
             >
               <use href={"./pieces/Chess_bdt45.svg"} />
             </svg>
             <svg
-              width={cellsSize}
-              height={cellsSize}
+              width={cellsSize + 'px'}
+              height={cellsSize + 'px'}
               style={promotionButtonStyle}
               on:click={() => commitPromotionMove("n")}
             >
