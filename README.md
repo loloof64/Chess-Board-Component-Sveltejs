@@ -85,7 +85,7 @@ But don't forget first to install all dependencies, with NodeJS : `yarn`.
 
 ## Credits
 
-Original pieces vectors definitions from CBurnett and found on [Wikimedia commons](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces).
+Pieces vectors definitions from CBurnett and found on [Wikimedia commons](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces).
 
 Using [ChessJS library](https://github.com/jhlywa/chess.js), which is bundled in the produced script.
 
