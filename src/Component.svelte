@@ -718,8 +718,6 @@ function handleGameEndedStatus() {
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    margin-block-start: 0;
-    margin-block-end: 0;
 }
 
 .dndPiece {
@@ -731,7 +729,7 @@ function handleGameEndedStatus() {
 }
 
 .player-turn {
-    border-radius: 50%;
+    border-radius: 46%;
 }
 
 .white-turn {
