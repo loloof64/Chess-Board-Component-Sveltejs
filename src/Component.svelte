@@ -166,6 +166,11 @@
     color: ${coordinates_color};
 `;
 
+  $: noDndHighlightStyle = `
+    width: ${cellsSize}px;
+    height: ${cellsSize}px;
+  `
+
   $: dndOriginCellStyle = `
     background-color: ${origin_cell_color};
     width: ${cellsSize}px;
@@ -821,7 +826,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isWhiteKnightAtCell(logic, file, rank)}
             <loloof64-white-knight
@@ -830,7 +835,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isWhiteBishopAtCell(logic, file, rank)}
             <loloof64-white-bishop
@@ -839,7 +844,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isWhiteRookAtCell(logic, file, rank)}
             <loloof64-white-rook
@@ -848,7 +853,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isWhiteQueenAtCell(logic, file, rank)}
             <loloof64-white-queen
@@ -857,7 +862,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isWhiteKingAtCell(logic, file, rank)}
             <loloof64-white-king
@@ -866,7 +871,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isBlackPawnAtCell(logic, file, rank)}
             <loloof64-black-pawn
@@ -875,7 +880,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isBlackKnightAtCell(logic, file, rank)}
             <loloof64-black-knight
@@ -884,7 +889,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isBlackBishopAtCell(logic, file, rank)}
             <loloof64-black-bishop
@@ -893,7 +898,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isBlackRookAtCell(logic, file, rank)}
             <loloof64-black-rook
@@ -902,7 +907,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isBlackQueenAtCell(logic, file, rank)}
             <loloof64-black-queen
@@ -911,7 +916,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else if isBlackKingAtCell(logic, file, rank)}
             <loloof64-black-king
@@ -920,7 +925,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {:else}
             <div
@@ -928,7 +933,7 @@
                 ? dndTargetCellStyle
                 : targetFile === file || targetRank === rank
                 ? dndCrossCellStyle
-                : ""}
+                : noDndHighlightStyle}
             />
           {/if}
         </div>
