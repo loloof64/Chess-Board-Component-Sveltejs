@@ -1117,18 +1117,26 @@
   .lowest-layer {
     position: absolute;
     display: grid;
+    left: 0;
+    top: 0;
   }
 
   .last-move-layer {
     position: absolute;
+    left: 0;
+    top: 0;
   }
 
   .dnd-layer {
     position: absolute;
+    left: 0;
+    top: 0;
   }
 
   .promotion-overlay-layer {
     position: absolute;
+    left: 0;
+    top: 0;
     opacity: 0.8;
     display: flex;
     justify-content: center;
@@ -1138,6 +1146,8 @@
 
   .promotion-layer {
     position: absolute;
+    left: 0;
+    top: 0;
     background-color: white;
     display: flex;
     flex-direction: column;
