@@ -22,9 +22,10 @@ function getLocalCoordinates(event, rootElement) {
 }
 
 export function handleMouseDown({event, cellsSize, reversed, rootElement,
-     logic, setupDnd, gameInProgress, waitingForExternalMove}) {
+     logic, setupDnd, gameInProgress, waitingForExternalMove, playerHuman}) {
     if (!gameInProgress) return;
     if (waitingForExternalMove) return;
+    if (!playerHuman) return;
     const [x, y] = getLocalCoordinates(event, rootElement);
     const [file, rank] = getCell({x,y,cellsSize, reversed});
 
@@ -42,11 +43,12 @@ export function handleMouseDown({event, cellsSize, reversed, rootElement,
 
 export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation, 
     rootElement, cancelDnd, cellsSize, reversed, promotionPending,
-     gameInProgress, waitingForExternalMove}) {
+     gameInProgress, waitingForExternalMove, playerHuman}) {
     if (!gameInProgress) return;
     if (waitingForExternalMove) return;
     if (!dragAndDropInProgress) return;
     if (promotionPending) return;
+    if (!playerHuman) return;
 
     const [x, y] = getLocalCoordinates(event, rootElement);
     const [file, rank] = getCell({x,y,cellsSize, reversed});
@@ -66,11 +68,12 @@ export function handleMouseMove({event, dragAndDropInProgress, updateDndLocation
 export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
      dragAndDropInProgress, dndPieceData, cancelDnd, updateLogic,
      updateAndEmitLastMove, promotionPending, setPromotionPending, gameInProgress,
-     handleGameEndedStatus, updateWaitingForExternalMove, waitingForExternalMove}) {
+     handleGameEndedStatus, updateWaitingForExternalMove, waitingForExternalMove, playerHuman}) {
     if (!gameInProgress) return;
     if (waitingForExternalMove) return;
     if (!dragAndDropInProgress) return;
     if (promotionPending) return;
+    if (!playerHuman) return;
     
     const [x, y] = getLocalCoordinates(event, rootElement);
     const [file, rank] = getCell({x,y,cellsSize, reversed});
@@ -129,10 +132,11 @@ export function handleMouseUp({event, cellsSize, reversed, rootElement, logic,
 }
 
 export function handleMouseExited({event, cancelDnd, promotionPending, 
-    gameInProgress, waitingForExternalMove}) {
+    gameInProgress, waitingForExternalMove, playerHuman}) {
     if (!gameInProgress) return;
     if (waitingForExternalMove) return;
     if (promotionPending) return;
+    if (!playerHuman) return;
     cancelDnd();
 }
 

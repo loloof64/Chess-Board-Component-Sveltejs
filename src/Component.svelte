@@ -14,6 +14,8 @@
 
   let rootElement;
   let gameInProgress = false;
+  let waitingForExternalMove = false;
+  let playerHuman = false;
   let startPosition;
 
   export let size = 100;
@@ -37,19 +39,6 @@
 
   export let coordinates_visible = true;
   export let last_move_visible = true;
-
-  import WhitePawn from "./pieces/WhitePawn.svelte";
-  import WhiteKnight from "./pieces/WhiteKnight.svelte";
-  import WhiteBishop from "./pieces/WhiteBishop.svelte";
-  import WhiteRook from "./pieces/WhiteRook.svelte";
-  import WhiteQueen from "./pieces/WhiteQueen.svelte";
-  import WhiteKing from "./pieces/WhiteKing.svelte";
-  import BlackPawn from "./pieces/BlackPawn.svelte";
-  import BlackKnight from "./pieces/BlackKnight.svelte";
-  import BlackBishop from "./pieces/BlackBishop.svelte";
-  import BlackRook from "./pieces/BlackRook.svelte";
-  import BlackQueen from "./pieces/BlackQueen.svelte";
-  import BlackKing from "./pieces/BlackKing.svelte";
 
   import {
     cellAlgebraic,
@@ -277,8 +266,6 @@
     top: ${dndLocation.y}px;
 `;
 
-$: waitingForExternalMove = updateWaitingForExternalMove();
-
   function cancelDnd() {
     dragAndDropInProgress = false;
     dndPieceData = undefined;
@@ -287,21 +274,24 @@ $: waitingForExternalMove = updateWaitingForExternalMove();
     targetRank = undefined;
   }
 
+  function updatePlayerHuman() {
+    if (!gameInProgress) {
+      playerHuman = false;
+      return;
+    }
+
+    const whiteTurn = logic.turn() === "w";
+    playerHuman =
+      (whiteTurn === true && [true, "true"].includes(white_player_human)) ||
+      (whiteTurn === false && [true, "true"].includes(black_player_human));
+  }
+
   function updateWaitingForExternalMove() {
     if (!gameInProgress) return;
 
-    const whiteTurn = logic.turn() === "w";
-    const playerHuman =
-      (whiteTurn === true && [true, "true"].includes(white_player_human)) ||
-      (whiteTurn === false && [true, "true"].includes(black_player_human));
     waitingForExternalMove = !playerHuman;
 
-    if (waitingForExternalMove) {
-      ////////////////////////////////////
-      console.log("Chess board component is waiting for external move.");
-      /////////////////////////////////////
-      dispatch("waiting-manual-move");
-    }
+    if (waitingForExternalMove) dispatch("waiting-manual-move");
   }
 
   export function newGame(
@@ -314,6 +304,7 @@ $: waitingForExternalMove = updateWaitingForExternalMove();
     cancelDnd();
     gameInProgress = true;
     handleGameEndedStatus();
+    updatePlayerHuman();
     updateWaitingForExternalMove();
   }
 
@@ -362,6 +353,7 @@ $: waitingForExternalMove = updateWaitingForExternalMove();
       logicAfterMove: logic,
     });
 
+    updatePlayerHuman();
     updateWaitingForExternalMove();
 
     return true;
@@ -408,6 +400,7 @@ $: waitingForExternalMove = updateWaitingForExternalMove();
       logicAfterMove: logic,
     });
 
+    updatePlayerHuman();
     updateWaitingForExternalMove();
 
     return true;
@@ -513,6 +506,7 @@ $: waitingForExternalMove = updateWaitingForExternalMove();
       logicAfterMove: logic,
     });
 
+    updatePlayerHuman();
     updateWaitingForExternalMove();
   }
 
@@ -749,6 +743,7 @@ $: waitingForExternalMove = updateWaitingForExternalMove();
       setupDnd,
       gameInProgress,
       waitingForExternalMove,
+      playerHuman,
     })}
   on:mousemove|preventDefault={(event) =>
     handleMouseMove({
@@ -762,6 +757,7 @@ $: waitingForExternalMove = updateWaitingForExternalMove();
       promotionPending,
       gameInProgress,
       waitingForExternalMove,
+      playerHuman,
     })}
   on:mouseup|preventDefault={(event) =>
     handleMouseUp({
@@ -781,6 +777,7 @@ $: waitingForExternalMove = updateWaitingForExternalMove();
       handleGameEndedStatus,
       updateWaitingForExternalMove,
       waitingForExternalMove,
+      playerHuman,
     })}
   on:mouseleave|preventDefault={(event) =>
     handleMouseExited({
@@ -789,6 +786,7 @@ $: waitingForExternalMove = updateWaitingForExternalMove();
       promotionPending,
       gameInProgress,
       waitingForExternalMove,
+      playerHuman,
     })}
 >
   <div class="lowest-layer" style={lowestLayerStyle}>
