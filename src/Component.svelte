@@ -296,7 +296,12 @@ $: waitingForExternalMove = updateWaitingForExternalMove();
       (whiteTurn === false && [true, "true"].includes(black_player_human));
     waitingForExternalMove = !playerHuman;
 
-    if (waitingForExternalMove) dispatch("waiting-manual-move");
+    if (waitingForExternalMove) {
+      ////////////////////////////////////
+      console.log("Chess board component is waiting for external move.");
+      /////////////////////////////////////
+      dispatch("waiting-manual-move");
+    }
   }
 
   export function newGame(
