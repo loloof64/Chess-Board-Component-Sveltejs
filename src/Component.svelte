@@ -1,7 +1,7 @@
 <svelte:options tag="loloof64-chessboard" />
 
 <script>
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
   import { get_current_component } from "svelte/internal";
 
   const component = get_current_component();
@@ -14,7 +14,6 @@
 
   let rootElement;
   let gameInProgress = false;
-  let waitingForExternalMove = false;
   let startPosition;
 
   export let size = 100;
@@ -33,25 +32,11 @@
 
   export let promotion_dialog_title = "Select the promotion piece";
 
-  export let white_player_human;
-  export let black_player_human;
+  export let white_player_human = true;
+  export let black_player_human = true;
 
   export let coordinates_visible = true;
   export let last_move_visible = true;
-
-  import WhitePawn from "./pieces/WhitePawn.svelte";
-  import WhiteKnight from "./pieces/WhiteKnight.svelte";
-  import WhiteBishop from "./pieces/WhiteBishop.svelte";
-  import WhiteRook from "./pieces/WhiteRook.svelte";
-  import WhiteQueen from "./pieces/WhiteQueen.svelte";
-  import WhiteKing from "./pieces/WhiteKing.svelte";
-
-  import BlackPawn from "./pieces/BlackPawn.svelte";
-  import BlackKnight from "./pieces/BlackKnight.svelte";
-  import BlackBishop from "./pieces/BlackBishop.svelte";
-  import BlackRook from "./pieces/BlackRook.svelte";
-  import BlackQueen from "./pieces/BlackQueen.svelte";
-  import BlackKing from "./pieces/BlackKing.svelte";
 
   import {
     cellAlgebraic,
@@ -278,6 +263,8 @@
     left: ${dndLocation.x}px;
     top: ${dndLocation.y}px;
 `;
+
+$: waitingForExternalMove = updateWaitingForExternalMove();
 
   function cancelDnd() {
     dragAndDropInProgress = false;
