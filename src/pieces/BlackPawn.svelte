@@ -1,5 +1,5 @@
 <script>
-export let size;
+export let size = 100;
 </script>
 
 <svelte:options tag="loloof64-black-pawn"/>
